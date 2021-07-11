@@ -15,6 +15,9 @@ public class HaveFunwithNumbers_1023 {
 
 
     public static void main(String[] args) {
+
+
+
         Scanner sc = new Scanner(System.in);
         Long inputNumber = sc.nextLong();
         Long doubledNumber = inputNumber * 2;
