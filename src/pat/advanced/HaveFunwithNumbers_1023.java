@@ -11,6 +11,8 @@ import java.util.Scanner;
  *
  */
 
+// 并不能全过，why？
+
 public class HaveFunwithNumbers_1023 {
 
 
