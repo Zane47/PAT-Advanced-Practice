@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.bigint;
 
 import java.util.Scanner;
 

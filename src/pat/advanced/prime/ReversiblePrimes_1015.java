@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.prime;
 
 import java.util.ArrayList;
 import java.util.Scanner;

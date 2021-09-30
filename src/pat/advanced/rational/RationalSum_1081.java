@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.rational;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.patstring;
 
 
 import java.util.Scanner;

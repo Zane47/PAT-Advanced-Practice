@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.search;
 
 
 import java.util.Scanner;

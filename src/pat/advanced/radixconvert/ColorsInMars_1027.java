@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.radixconvert;
 
 
 import java.io.BufferedReader;
