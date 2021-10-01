@@ -57,7 +57,6 @@ public class ShufflingMachine_1042 {
             end[i] = i;
         }
 
-
         // 洗牌次数
         for (int k = 0; k < K; k++) {
             for (int i = 1; i <= 54; i++) {
@@ -67,7 +66,6 @@ public class ShufflingMachine_1042 {
             for (int i = 1; i <= 54; i++) {
                 end[nums[i]] = start[i];
             }
-
         }
 
         for (int i = 1; i <= 54 ;i++) {
@@ -77,18 +75,6 @@ public class ShufflingMachine_1042 {
                 System.out.print(list.get(end[i]) + " ");
             }
         }
-
-
-
-
-
-
-
-
     }
-
-
-
-
 
 }
