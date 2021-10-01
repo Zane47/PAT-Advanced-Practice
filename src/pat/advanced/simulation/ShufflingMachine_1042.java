@@ -27,6 +27,8 @@ public class ShufflingMachine_1042 {
         char[] color = new char[] {'S', 'H', 'C', 'D'};
         // 初始化arraylist, 扑克牌的顺序
         List<String> list = new ArrayList<>();
+        // 1-54第一位为空
+        list.add("");
         for (int i = 0; i < 4; i++) {
             for (int j = 1; j <= 13; j++) {
                 StringBuilder sb = new StringBuilder();
@@ -47,14 +49,14 @@ public class ShufflingMachine_1042 {
 
         // 使用start和end数组保存每一次变换的开始顺序和结束顺序（以1~54的编号存储）
         // 最后根据编号与扑克牌字母数字的对应关系输出end数组
-        // int[] start = Arrays.copyOf(nums, 55);
         int[] start = new int[55];
-        // int[] end = Arrays.copyOf(nums, 55);
         int[] end = new int[55];
 
+        // 初始化, 1-54
         for (int i = 1; i <= 54; i++) {
             end[i] = i;
         }
+
 
         // 洗牌次数
         for (int k = 0; k < K; k++) {
@@ -69,10 +71,7 @@ public class ShufflingMachine_1042 {
         }
 
         for (int i = 1; i <= 54 ;i++) {
-            /*System.out.print(i);
-            System.out.print(start[i]);*/
             if (i == 54) {
-                //end[i] = end[i]-1;
                 System.out.print(list.get(end[i]));
             } else {
                 System.out.print(list.get(end[i]) + " ");
