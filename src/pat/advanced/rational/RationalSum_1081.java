@@ -3,7 +3,6 @@ package pat.advanced.rational;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 /**
  * Sample Input 1:
@@ -42,13 +41,22 @@ public class RationalSum_1081 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         String inputStr = br.readLine();
-        String[] v1 = inputStr.split(" ");
-        Long result = 0l;
+        String[] allNumber = inputStr.split(" ");
+        Long result = 0L;
+        // 第一组数据先拿出来作为基数, 后面进行运算
+        String firstNumberString = allNumber[0];
+        String[] split = firstNumberString.split("/");
+        long a = Long.parseLong(split[0]);
+        long b = Long.parseLong(split[1]);
+
         // numerator/denominator
-        for (int i = 0; i < N; i++) {
-            String[] v2 = v1[i].split("/");
-            Long numerator = Long.parseLong(v2[0]);
-            Long denominator = Long.parseLong(v2[1]);
+        // 从第二个数字开始
+        for (int i = 1; i < N; i++) {
+            String[] curStr = allNumber[i].split("/");
+            Long curNumerator = Long.parseLong(curStr[0]);
+            Long curDenominator = Long.parseLong(curStr[1]);
+
+
 
 
 
