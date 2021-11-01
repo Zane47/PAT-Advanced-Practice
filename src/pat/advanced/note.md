@@ -47,4 +47,6 @@ public static int minCommonMultiple(int m, int n) {
 
 
 
-
+# TIPS(做题技巧, 调试技巧)
+## 线上调试法
+e.g.: [1081](https://zhuanlan.zhihu.com/p/105108323)

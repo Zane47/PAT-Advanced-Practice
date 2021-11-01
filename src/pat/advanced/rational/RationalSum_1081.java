@@ -23,10 +23,15 @@ import java.io.InputStreamReader;
  * 1/3 -1/6 1/8
  * output:
  * 7/24
- *
+ * <p>
  * 4
  * -1/2 -1/2 -1/2 -1/2
  * -2
+ * <p>
+ * 0的情况
+ * <p>
+ * 找到分母的最大公约数GCD，Greatest Common Divisor(GCD)
+ * GCD(a,b) is the smallest positive linear combination of a and b
  */
 
 /**
@@ -47,7 +52,6 @@ public class RationalSum_1081 {
         String inputStr = br.readLine();
         // 空格为分割
         String[] allNumber = inputStr.split(" ");
-        Long result = 0L;
         // 第一组数据先拿出来作为基数, 后面进行运算
         String firstNumberString = allNumber[0];
         String[] split = firstNumberString.split("/");
@@ -74,7 +78,7 @@ public class RationalSum_1081 {
         }
 
         // 求出的结果进行处理
-        if (a == 0) {
+        if (a == 0 || b == 0) {
             System.out.print(0);
             return;
         }
