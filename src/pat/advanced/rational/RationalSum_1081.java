@@ -3,7 +3,9 @@ package pat.advanced.rational;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
+/***
+ * todo: case 3 wrong answer
+ */
 /**
  * Sample Input 1:
  * 5
@@ -28,13 +30,6 @@ import java.io.InputStreamReader;
  * -1/2 -1/2 -1/2 -1/2
  * -2
  * <p>
- * 0的情况
- * <p>
- * 找到分母的最大公约数GCD，Greatest Common Divisor(GCD)
- * GCD(a,b) is the smallest positive linear combination of a and b
- */
-
-/**
  * 0的情况
  * <p>
  * 找到分母的最大公约数GCD，Greatest Common Divisor(GCD)
@@ -68,7 +63,7 @@ public class RationalSum_1081 {
             // 2/5 + 4/15 = (2*15 + 4*5) / (5 * 15), 先计算, 然后在做约分
             a = a * curDenominator + curNumerator * b;
             b = b * curDenominator;
-
+            // 每加一次就对分数进行化简, 不然会超时
             // 做约分, 首先求出分子分母的最大公因数, 然后分子分母分别除以这个数字
             int c = maxCommonDivisor(a, b);
             // 可能有负数的情况
