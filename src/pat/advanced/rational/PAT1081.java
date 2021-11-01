@@ -27,7 +27,8 @@ import java.io.InputStreamReader;
  * output:
  * 7/24
  *
- *
+ * :2 -2/3 1/3
+ * -1/3
  */
 
 public class PAT1081 {
@@ -45,7 +46,9 @@ public class PAT1081 {
             int btemp = Integer.parseInt(s[1]);
             a = a * btemp + atemp * b;
             b = b * btemp;
+            // 这里的GCD有可能为负数, 如果是负数, 那么负号就会转移到分母上
             int c = GCD(a, b);
+            c = Math.abs(c);
             a = a / c;
             b = b / c;
         }
