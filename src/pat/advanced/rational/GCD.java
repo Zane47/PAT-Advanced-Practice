@@ -15,6 +15,7 @@ public class GCD {
         int s2 = solution2(47, 100);
 
         // 欧几里得法,辗转相除法
+        // https://blog.csdn.net/afei__/article/details/80216247
         int s3 = solution3(a, b);
     }
 
