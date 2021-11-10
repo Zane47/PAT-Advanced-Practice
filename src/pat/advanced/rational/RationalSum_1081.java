@@ -100,7 +100,7 @@ public class RationalSum_1081 {
     }
 
     /**
-     * 求v1 v2的最大公因数
+     * 暴力求v1 v2的最大公因数
      */
     private static int maxCommonDivisor(long v1, long v2) {
         v1 = Math.abs(v1);
