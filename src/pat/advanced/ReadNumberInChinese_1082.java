@@ -2,7 +2,7 @@ package pat.advanced;
 
 import java.util.Scanner;
 
-/**
+/**todo:
  * 不超过九位的数字, 用中文习惯读出来
  * 注意0也需要哪找
  * zero ("ling") must be handled correctly according to the Chinese tradition
