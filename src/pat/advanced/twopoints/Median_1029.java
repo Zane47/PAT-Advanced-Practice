@@ -1,7 +1,5 @@
 package pat.advanced.twopoints;
 
-import com.sun.javaws.security.AppContextUtil;
-
 import java.util.Scanner;
 
 /**
@@ -36,9 +34,31 @@ public class Median_1029 {
 
     }
 
+    /**
+     * 创建第三个array来存储两个数组比较的结果
+     */
     private static void solution1(int[] nums1, int[] nums2) {
+        int totalLength = nums1.length + nums2.length;
+        int mid = (totalLength + 1) / 2;
 
-
+        int[] nums3 = new int[totalLength];
+        int v1 = 0, v2 = 0, v3 = 0;
+        while (v3 < totalLength) {
+            if (nums1[v1] <= nums2[v2]) {
+                nums3[v3] = nums1[v1];
+                v1++;
+                v3++;
+            } else {
+                nums3[v3] = nums2[v2];
+                v3++;
+                v2++;
+            }
+            // 每轮下来都是后面一个
+            if (v3 == mid + 1) {
+                System.out.println(nums3[mid]);
+                return;
+            }
+        }
 
 
     }
