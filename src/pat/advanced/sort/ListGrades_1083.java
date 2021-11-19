@@ -1,4 +1,4 @@
-package pat.advanced;
+package pat.advanced.sort;
 
 import java.util.*;
 
