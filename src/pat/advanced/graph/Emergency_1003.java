@@ -112,6 +112,7 @@ public class Emergency_1003 {
                         num[v] = num[u];
                     } else if (d[v] == d[u] + graph[u][v]) {
                         // 只要有相等的情况就要叠加num[]
+                        // 注意!!!, 最短路径条数和点权没有关系, 必须卸载外面
                         num[v] += num[u];
 
                         // 如果这个时候点权更大， 那么就可以更新w[v]
