@@ -98,9 +98,9 @@ public class Emergency_1003 {
             }
 
             // 如果没有找到, return
-            /*if (u == -1) {
+            if (u == -1) {
                 return;
-            }*/
+            }
 
             // 从u能到达的v, 做更新
             for (int v = 0; v < n; v++) {
