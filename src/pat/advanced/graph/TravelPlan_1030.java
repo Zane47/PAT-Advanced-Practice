@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * 单源最短路径
+ * 单源最短路径 -> dijkstra
  */
 public class TravelPlan_1030 {
     public static void main(String[] args) {
