@@ -29,6 +29,9 @@ public class AlexanderDemo {
     // 顶点是否被访问过
     private static boolean[] hasVisited;
 
+    // 前驱结点
+    private static int[] pre;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         // 顶点个数
@@ -38,9 +41,16 @@ public class AlexanderDemo {
         // 起点
         int s = sc.nextInt();
 
-        // 初始化
+        // 初始化是否遍历过的数组
         hasVisited = new boolean[n];
 
+        // 初始化前驱结点数组, 每一个前驱结点先都设置成本身
+        pre = new int[n];
+        for (int i = 0; i < n; i++) {
+            pre[i] = i;
+        }
+
+        // 初始化起点到顶点的距离数据, 起点到起点本身是0, 其他都是INF
         distance = new int[n];
         Arrays.fill(distance, INF);
         distance[s] = 0;
@@ -60,12 +70,42 @@ public class AlexanderDemo {
 
         dijkstraFunc(graph, n, s);
 
+        // 测试: 输出start到v5的最短路径
+        int end = 5;
+        DFS(s, end);
+
+        System.out.println();
+
+        // print distance
         for (int i = 0; i < n; i++) {
             System.out.print(distance[i]);
             System.out.print(" ");
         }
     }
 
+    /**
+     * 最短路径
+     * s到end
+     */
+    private static void DFS(int s, int end) {
+        // 当前到达起点s, 输出并返回
+        if (end == s) {
+            System.out.print(end);
+            System.out.print(" -> ");
+            return;
+        }
+
+        // 递归访问v的前驱结点pre[v]
+        DFS(s, pre[end]);
+
+        // 最深层递归回来, 已经输出了起点, 接下来输出每一层的顶点v就可以了
+        System.out.print(end);
+        System.out.print(" -> ");
+    }
+
+    /**
+     * 起点s到各个顶点的最短距离 -> distance[n]
+     */
     private static void dijkstraFunc(int[][] graph, int n, int s) {
         // 循环n次
         for (int i = 0; i < n; i++) {
@@ -90,6 +130,8 @@ public class AlexanderDemo {
                 // 没有被访问过 && 从u能到达v && 以u为中介点可以让distance[v]更优
                 if (!hasVisited[v] && graph[u][v] != INF && distance[u] + graph[u][v] < distance[v]) {
                     distance[v] = distance[u] + graph[u][v];
+                    // 记录v的前驱结点是v
+                    pre[v] = u;
                 }
             }
         }
