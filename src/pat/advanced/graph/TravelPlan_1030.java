@@ -7,9 +7,12 @@ import java.util.Scanner;
  * 单源最短路径 -> dijkstra
  */
 public class TravelPlan_1030 {
+    private static final int MAX = 0x3fffffff;
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        // number of cities
+        // # of cities
         int N = sc.nextInt();
         // # of highways
         int M = sc.nextInt();
@@ -21,10 +24,10 @@ public class TravelPlan_1030 {
         int[][] distance = new int[N][N];
         int[][] cost = new int[N][N];
         for (int i = 0; i < N; i++) {
-            Arrays.fill(distance[i], Integer.MAX_VALUE);
+            Arrays.fill(distance[i], MAX);
         }
         for (int i = 0; i < N; i++) {
-            Arrays.fill(cost[i], Integer.MAX_VALUE);
+            Arrays.fill(cost[i], MAX);
         }
 
         for (int i = 0; i < M; i++) {
@@ -37,7 +40,7 @@ public class TravelPlan_1030 {
             cost[city1][city2] = c;
             cost[city2][city1] = c;
         }
-        int a = 0;
+
 
 
 

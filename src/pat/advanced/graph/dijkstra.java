@@ -1,7 +1,10 @@
 package pat.advanced.graph;
 
+import javax.swing.text.StyledEditorKit;
+
 /**
  * 对给出的图G(V,E)和起点S, 终点T, 求从S到T的最短路径
+ *
  *
  *
  * 求图最短路径dijkstra
@@ -31,6 +34,13 @@ package pat.advanced.graph;
 
 public class dijkstra {
 
+    // 最大顶点数
+    private static final int MAXV = 1000;
+
+    // INF
+    private static final int INF = 0x3fffffff;
+
+
     public static void main(String[] args) {
         // Test test = new Test();
         int MAX = Integer.MAX_VALUE - 10000;
@@ -43,8 +53,6 @@ public class dijkstra {
                 {MAX, MAX, MAX, MAX, MAX, 0}
         };
         int start = 0;  //选择出发点
-        // int[] sp = test.getShortPath(weight,start);
-        // System.out.println(Arrays.toString(sp));
     }
 
 
