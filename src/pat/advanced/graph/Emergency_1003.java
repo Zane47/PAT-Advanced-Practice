@@ -62,7 +62,6 @@ public class Emergency_1003 {
 
         // 初始化访问数组
         hasVisited = new boolean[N];
-        hasVisited[C1] = true;
 
         // 初始化num[], num[C1] = 1, 其余为0
         num = new int[N];
@@ -102,6 +101,8 @@ public class Emergency_1003 {
                 return;
             }
 
+            hasVisited[u] = true;
+
             // 从u能到达的v, 做更新
             for (int v = 0; v < n; v++) {
                 if (!hasVisited[v] && graph[u][v] != INF) {
@@ -109,17 +110,144 @@ public class Emergency_1003 {
                         d[v] = d[u] + graph[u][v];
                         w[v] = w[u] + weight[v];
                         num[v] = num[u];
-                    } else if (d[v] == d[u] + graph[u][v] && w[v] < w[u] + weight[v]) {
-                        w[v] = w[u] + weight[v];
+                    } else if (d[v] == d[u] + graph[u][v]) {
+                        // 只要有相等的情况就要叠加num[]
                         num[v] += num[u];
+
+                        // 如果这个时候点权更大， 那么就可以更新w[v]
+                        if (w[u] + weight[v] > w[v]) {
+                            w[v] = w[u] + weight[v];
+                        }
                     }
                 }
             }
-
-
         }
 
     }
 
 
 }
+
+
+/*
+// 1003Emergency最短路径.cpp : 定义控制台应用程序的入口点。
+//
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+// 无限大
+const int INF = 0x3FFFFFFF;
+// 最大顶点数
+const int MAX_NUM_OF_VERTEX = 510;
+
+int n = 0;
+int m = 0;
+int startVertex = 0;
+int endVertex = 0;
+
+int weight[MAX_NUM_OF_VERTEX] = { 0 };
+int G[MAX_NUM_OF_VERTEX][MAX_NUM_OF_VERTEX];
+
+// 记录最短距离
+int __d[MAX_NUM_OF_VERTEX];
+// 记录最大点权之和
+int __w[MAX_NUM_OF_VERTEX];
+int numberOfPath[MAX_NUM_OF_VERTEX];
+bool isVisited[MAX_NUM_OF_VERTEX] = { false };
+
+void Dijkstra(int s);
+
+int main()
+{
+	scanf("%d%d%d%d", &n, &m, &startVertex, &endVertex);
+	for (int i = 0; i < n; i++) {
+		scanf("%d", &weight[i]);
+	}
+
+
+	fill(G[0], G[0] + MAX_NUM_OF_VERTEX * MAX_NUM_OF_VERTEX, INF);
+
+	int u, v = 0;
+	for (int i = 0; i < m; i++) {
+		scanf("%d%d", &u, &v);
+		scanf("%d", &G[u][v]);
+		G[v][u] = G[u][v];
+	}
+
+	Dijkstra(startVertex);
+
+
+	printf("%d %d\n", numberOfPath[endVertex], __w[endVertex]);
+
+    return 0;
+}
+
+
+
+void Dijkstra(int s) {
+	// s为起点，其他点到s点的距离初始化都是INF
+	fill(__d, __d + MAX_NUM_OF_VERTEX, INF);
+	memset(numberOfPath, 0, sizeof(numberOfPath));
+	memset(__w, 0, sizeof(__w));
+	__d[s] = 0;
+	__w[s] = weight[s];
+	numberOfPath[s] = 1;
+	for (int i = 0; i < n; i++) {
+		int u = -1;
+		int MIN = INF;
+
+		for (int j = 0; j < n; j++) {
+			if (isVisited[j] == false && __d[j] < MIN) {
+				u = j;
+				MIN = __d[j];
+			}
+		}
+
+		if (u == -1) {
+			return;
+		}
+		isVisited[u] = true;
+		// 更新
+		for (int v = 0; v < n; v++) {
+			if (isVisited[v] == false && G[u][v] != INF) {
+				if (__d[u] + G[u][v] < __d[v]) {
+					__d[v] = __d[u] + G[u][v];
+					__w[v] = __w[u] + weight[v];
+					numberOfPath[v] = numberOfPath[u];
+				}
+				else if (__d[u] + G[u][v] == __d[v]) {
+					if (__w[u] + weight[v] > __w[v]) {
+						__w[v] = __w[u] + weight[v];
+					}
+					numberOfPath[v] += numberOfPath[u];
+				}
+
+			}
+
+		}
+
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ */
