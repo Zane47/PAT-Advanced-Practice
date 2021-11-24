@@ -1,7 +1,7 @@
 # 数学
 ## 最大公约数GCD，Greatest Common Divisor(GCD)
 maxCommonDivisor
-```java
+```
 // 递归法求最大公约数
 public static int maxCommonDivisor(int m, int n) {
     if (m < n) {// 保证m>n,若m<n,则进行数据交换
@@ -36,7 +36,7 @@ public static int maxCommonDivisor2(int m, int n) {
 
 ## 最小公倍数
 minCommonMultiple
-```java
+```
 // 求最小公倍数
 public static int minCommonMultiple(int m, int n) {
     return m * n / maxCommonDivisor(m, n);
@@ -51,9 +51,10 @@ _RoundingMode_.HALF_EVEN
 # 时间
 ## java对时间的对比方法
 https://blog.csdn.net/u013991521/article/details/60471545
+https://blog.csdn.net/lom9357bye/article/details/50347689
 1. 换算成总秒数进行对比 -> `SignInAndSignOut_1006`
 不带日期的时间
-
+2. 
 
 
 # TIPS(做题技巧, 调试技巧)
