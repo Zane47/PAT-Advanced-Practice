@@ -1,7 +1,6 @@
 package pat.advanced.graph;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * 单源最短路径 -> dijkstra
