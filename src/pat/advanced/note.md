@@ -48,7 +48,16 @@ https://www.cnblogs.com/chenssy/p/3366632.html
 _RoundingMode_.HALF_EVEN
 
 
+# 时间
+## java对时间的对比方法
+https://blog.csdn.net/u013991521/article/details/60471545
+1. 换算成总秒数进行对比 -> `SignInAndSignOut_1006`
+不带日期的时间
+
+
 
 # TIPS(做题技巧, 调试技巧)
 ## 线上调试法
 e.g.: [1081](https://zhuanlan.zhihu.com/p/105108323)
+
+

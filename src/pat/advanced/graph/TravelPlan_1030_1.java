@@ -2,7 +2,7 @@ package pat.advanced.graph;
 
 import java.util.*;
 
-/**
+/**基础的dijkstra
  * Solution1: 直接用基础的dijkstra
  * 单源最短路径 -> dijkstra + DFS
  * 边权有cost, 第二标尺

@@ -3,12 +3,11 @@ package pat.advanced.graph;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/** dijkstra + DFS
+/**dijkstra + DFS
  * 单源最短路径
  * 边权有cost, 第二标尺 -> dijkstra + DFS
  * 第一标尺: 最短路径, 如果相同, 那么就按照第二标尺边权取最小, 保证第二标尺唯一
- * 这道题目简单并且只有两个标尺, 理论上可以直接用基础的dijkstra -> solution1
- *
+ * 先用dijkstra算法求出所有的pre数组, 然后遍历该数组, 根据第二标尺来输出最小__c
  * 输出的数据是start -> destination的路径 + total distance + total cost
  */
 public class TravelPlan_1030_2 {
