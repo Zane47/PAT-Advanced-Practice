@@ -81,3 +81,9 @@ https://blog.csdn.net/lom9357bye/article/details/50347689
 e.g.: [1081](https://zhuanlan.zhihu.com/p/105108323)
 
 
+# 字符串
+## 翻转, reverse
+```
+String str = "123456";
+String reverseStr = new StringBuilder(str).reverse().toString();
+```

@@ -27,6 +27,9 @@ public class PalindromicNumber_1024 {
         // 用例输出为:1778753106860665710878660211957977917467157602357787 100
         // 你的输出为:17032879156711642703565832756540723720666237932961 100
         // 有几个测试点过不了
+
+        // 与solution2对比后发现, 自己写的reverse方法有问题
+
         // solution1();
 
 
@@ -37,12 +40,14 @@ public class PalindromicNumber_1024 {
         BigDecimal N = new BigDecimal(inputStr);
         int K = sc.nextInt();
         String reverseStr = new StringBuilder(inputStr).reverse().toString();
+        // String reverseStr = palindromic(N).toString();
 
         int i = 0;
         while (i < K && !reverseStr.equals(inputStr)) {
             N = N.add(new BigDecimal(reverseStr));
             inputStr = N.toString();
             reverseStr = new StringBuilder(inputStr).reverse().toString();
+            // reverseStr = palindromic(N).toString();
             i++;
         }
         System.out.println(N);
@@ -70,9 +75,6 @@ public class PalindromicNumber_1024 {
 
         System.out.println(N);
         System.out.println(i);
-
-
-
     }
 
     /**
