@@ -79,6 +79,7 @@ public class PalindromicNumber_1024 {
 
     /**
      * 输出回文数字
+     * 有问题
      */
     private static BigDecimal palindromic(BigDecimal num) {
         // bigDecimal会精确到小数点后一位, 141.0, 这样子str就是5位了
