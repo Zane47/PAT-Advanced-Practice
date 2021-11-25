@@ -5,6 +5,11 @@
 System.out.printf("%06d\n", stu.getId());
 ```
 
+## 小数点后2位
+```
+System.out.printf("%.2f", maxProfile);
+```
+
 ## char[]的输出
 ```
 char[] = {'a', 'b', 'c'}
