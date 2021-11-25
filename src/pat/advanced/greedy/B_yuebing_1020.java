@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-/**有一个测试点"非零返回"??
+/**1020	月饼
+ *
+ * 有一个测试点"非零返回"??
  *
  * ref: https://github.com/liuchuo/PAT/edit/master/BasicLevel_Java/1020.%20%E6%9C%88%E9%A5%BC%20(25).java
  *
