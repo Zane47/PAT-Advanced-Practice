@@ -1,3 +1,17 @@
+# 输出printf
+## 数字前面有0的情况
+`000001`: 
+```
+System.out.printf("%06d\n", stu.getId());
+```
+
+## char[]的输出
+```
+char[] = {'a', 'b', 'c'}
+new String(stu.getName()) -> abc 
+Arrays.toString(stu.getName()) -> [a, b, c]
+```
+
 # 数学
 ## 最大公约数GCD，Greatest Common Divisor(GCD)
 maxCommonDivisor

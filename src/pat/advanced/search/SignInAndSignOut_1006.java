@@ -15,6 +15,8 @@ public class SignInAndSignOut_1006 {
 
     public static void main(String[] args) throws ParseException {
         // solution1();
+
+        // fixme: 有问题
         DateFormat dateFormat = new SimpleDateFormat("HH:MM:SS");
 
         Scanner sc = new Scanner(System.in);
