@@ -123,14 +123,11 @@ public class Emergency_1003 {
                 }
             }
         }
-
     }
-
-
 }
 
 
-/*
+/* C++
 // 1003Emergency最短路径.cpp : 定义控制台应用程序的入口点。
 //
 
