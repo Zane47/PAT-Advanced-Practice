@@ -1,7 +1,5 @@
 package pat.advanced.graph;
 
-import javafx.scene.chart.StackedBarChart;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +24,15 @@ import java.util.Scanner;
  * output the one that requires minimum number of bikes that we must take back to PBMC.
  * <p>
  * 要求带回PBMC最少的车子
+ *
+ * 10 4 4 5
+ * 4 8 9 0
+ * 0 1 1
+ * 1 2 1
+ * 1 3 2
+ * 2 3 1
+ * 3 4 1
+ * 1 0->1->2->3->4 2
  */
 public class PublicBikeManagement_1018 {
 
@@ -147,18 +154,21 @@ public class PublicBikeManagement_1018 {
             int remain = 0;
             for (int i = __tempPath.size() - 1; i >= 0; i--) {
                 int node = __tempPath.get(i);
-                // 该点点权 >= 0, 那么就需要从该点带走车子
-                if (weight[node] >= 0) {
+                // 该点点权 > 0, 那么就需要从该点带走车子
+                if (weight[node] > 0) {
                     remain += weight[node];
-                } else {
+                } else if (weight[node] < 0) {
                     // 该点点权 < 0, 给该点补充车子
                     if (remain + weight[node] < 0) {
                         // 现在有的车子数量还不够补充, 那么就要从start点带出车子来补充
-                        need = Math.abs(remain + weight[node]);
+                        need += Math.abs(remain + weight[node]);
                         remain = 0;
-                    } else {
-                        // 现有的车子数量足够了, 那么不需要从start带车子出来, 直接用remian的车子 补充
-                        remain -= weight[node];
+                    } else if (remain + weight[node] > 0) {
+                        // 现有的车子数量足够了, 那么不需要从start带车子出来, 直接用remain的车子 补充
+
+                        // remain -= weight[node];
+                        // weight[node]本身就是负数
+                        remain += weight[node];
                     }
                 }
             }
