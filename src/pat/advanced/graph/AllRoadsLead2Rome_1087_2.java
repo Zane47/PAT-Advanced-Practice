@@ -1,8 +1,5 @@
 package pat.advanced.graph;
 
-
-import com.sun.javafx.scene.traversal.WeightedClosestCorner;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +7,7 @@ import java.util.Scanner;
 
 /**
  * 纯dijkstra, 三把标尺
+ * 这种写起来太恶心了, 还是用dijkstra + dfs, 标尺太多了
  */
 public class AllRoadsLead2Rome_1087_2 {
 
@@ -124,11 +122,11 @@ public class AllRoadsLead2Rome_1087_2 {
 
         //
         // the happiness
-        System.out.print(happiness[destination]);
+        System.out.print((int) __w[destination]);
         System.out.print(" ");
 
         // the avg happiness
-        System.out.println(happiness[destination] / __numOfPoint[destination]);
+        System.out.println((int) __w[destination] / __numOfPoint[destination]);
 
         // path, 输出路径
         dfs(destination, 0);
@@ -142,13 +140,13 @@ public class AllRoadsLead2Rome_1087_2 {
      */
     private static void dfs(int destination, int start) {
         if (destination == start) {
-            System.out.print(start);
+            System.out.print(__index2Name.get(start));
             return;
         }
 
         dfs(__pre[destination], start);
         System.out.print("->");
-        System.out.print(destination);
+        System.out.print(__index2Name.get(destination));
     }
 
     /**
@@ -208,7 +206,7 @@ public class AllRoadsLead2Rome_1087_2 {
                             // 点权之和相同, 取平均点权更大的那个
                             // avg = all happiness / # of points - 1
                             double avgOfV = __w[v] / __numOfPoint[v];
-                            double avgOfU = (__w[u] + weight[v]) / __numOfPoint[u] + 1;
+                            double avgOfU = (__w[u] + weight[v]) / (__numOfPoint[u] + 1);
                             // 以u为中介点平均值更大
                             if (avgOfU > avgOfV) {
                                 // 前驱结点更新
