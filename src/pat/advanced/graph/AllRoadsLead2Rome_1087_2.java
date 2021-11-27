@@ -1,6 +1,8 @@
 package pat.advanced.graph;
 
 
+import com.sun.javafx.scene.traversal.WeightedClosestCorner;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.Scanner;
  * 纯dijkstra, 三把标尺
  */
 public class AllRoadsLead2Rome_1087_2 {
+
     private static final int INF = 0x3fffffff;
 
     // 名字对应编号
@@ -20,8 +23,20 @@ public class AllRoadsLead2Rome_1087_2 {
     // 是否被访问
     private static boolean[] __hasVisited;
 
-    // 最短路径距离数组
+    // 最短路径距离数组, 从起点到第i点的最短距离
     private static int[] __d;
+
+    // 从起点到第i点的最大点权
+    private static double[] __w;
+
+    // 三把标尺下的前驱结点
+    private static int[] __pre;
+
+    // 从起点到点i的最短路径个数
+    private static int[] __numOfPath;
+
+    // 从start点到点i最短路径的顶点个数
+    private static int[] __numOfPoint;
 
     public static void main(String[] args) {
         // 初始化map
@@ -74,11 +89,105 @@ public class AllRoadsLead2Rome_1087_2 {
         // start点是0
         __d[0] = 0;
 
+        // 初始化__pre
+        __pre = new int[N];
+        // 每一个点的前驱是他自身
+        for (int i = 0; i < N; i++) {
+            __pre[i] = i;
+        }
+
+        // 初始化__w, __w的初始值是起点的weight
+        __w = new double[N];
+        for (int i = 0; i < N; i++) {
+            __w[i] = happiness[0];
+        }
+
+        // 初始化__numOfPath, 从起点到点i的最短路径个数
+        // 起点的是1, 其他的是0
+        __numOfPath = new int[N];
+        __numOfPath[0] = 1;
+
+        // 初始化__numOfPoint, 从start点到点i的最短路径个数
+        __numOfPoint = new int[N];
+
+        dijkstraFunc(graph, N, happiness);
+
+        int destination = __name2Index.get("ROM");
+
+        System.out.print();
+
 
     }
 
+    /**
+     * dijkstra + 三把标尺
+     *
+     * @param graph  graph
+     * @param n      顶点个数
+     * @param weight 点权
+     */
+    private static void dijkstraFunc(int[][] graph, int n, int[] weight) {
+        for (int i = 0; i < n; i++) {
+            int u = -1;
+            int min = INF;
+            // 所有的点
+            for (int j = 0; j < n; j++) {
+                // 没有被访问过 && 起点到他的最小值小于min
+                if (!__hasVisited[j] && __d[j] < min) {
+                    u = j;
+                    min = __d[j];
+                }
+            }
+            if (u == -1) {
+                return;
+            }
+            // 访问他
+            __hasVisited[u] = true;
+            for (int v = 0; v < n; v++) {
+                // v咩有被访问过 && u可以到v
+                if (!__hasVisited[v] && graph[u][v] != INF) {
+                    // 第一标尺
+                    if (__d[u] + graph[u][v] < __d[v]) {
+                        // 更新起点到v的最短距离
+                        __d[v] = __d[u] + graph[u][v];
+                        // 更新__w, 因为有更优解, 直接更新成更优解的
+                        __w[v] = __w[u] + weight[v];
+                        // 更新num, 到点v的最短路径条数, 直接覆盖
+                        __numOfPath[v] = __numOfPath[u];
+                        // 前驱结点更新
+                        __pre[v] = u;
+                        // 更新顶点个数, start -> v的顶点个数 = start -> u的顶点个数 + 1
+                        __numOfPoint[v] = __numOfPoint[u] + 1;
+                    } else if (__d[u] + graph[u][v] == __d[v]) {
+                        // 更新num, 到点v的最短路径条数
+                        // 长度相等, 叠加
+                        __numOfPath[v] += __numOfPath[u];
 
-
-
-
+                        // 第二标尺, max happiness, 最大点权和
+                        if (__w[u] + weight[v] > __w[v]) {
+                            // 更新__w, 因为有更优解, 直接更新成更优解的
+                            __w[v] = __w[u] + weight[v];
+                            // 前驱结点更新
+                            __pre[v] = u;
+                            // 更新顶点个数, start -> v的顶点个数 = start -> u的顶点个数 + 1
+                            __numOfPoint[v] = __numOfPoint[u] + 1;
+                        } else if (__w[u] + weight[v] == __w[v]) {
+                            // 第三标尺, max average happiness
+                            // 点权之和相同, 取平均点权更大的那个
+                            // avg = all happiness / # of points - 1
+                            double avgOfV = __w[v] / __numOfPoint[v];
+                            double avgOfU = (__w[u] + weight[v]) / __numOfPoint[u] + 1;
+                            // 以u为中介点平均值更大
+                            if (avgOfU > avgOfV) {
+                                // 前驱结点更新
+                                __pre[v] = u;
+                                // 更新顶点个数, start -> v的顶点个数 = start -> u的顶点个数 + 1
+                                __numOfPoint[v] = __numOfPoint[u] + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
