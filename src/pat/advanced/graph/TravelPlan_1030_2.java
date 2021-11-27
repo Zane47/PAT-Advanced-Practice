@@ -124,7 +124,7 @@ public class TravelPlan_1030_2 {
      * @param cost
      */
     private static void dfs(int v, int S, int[][] cost) {
-        // 递归边界, 到达启示顶点
+        // 递归边界, 到达起始顶点
         if (v == S) {
             // 加入最后的点
             __tempPath.add(v);

@@ -1,6 +1,6 @@
 package pat.advanced.graph;
 
-import sun.awt.image.ImageWatched;
+import javafx.scene.chart.StackedBarChart;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -40,6 +40,17 @@ public class PublicBikeManagement_1018 {
     // 记录最短路径的前驱结点
     private static List<List<Integer>> __pre;
 
+    // 记录临时路径, 用来和最终的路径做对比
+    private static List<Integer> __tempPath;
+
+    // 最终路径, 由临时路径对比得来
+    private static List<Integer> __resultPath;
+
+    // 从start要携带的最少的车辆数目, 第二标尺
+    private static int minNeed = INF;
+
+    // 带回start的车子数量
+    private static int takeBack = 0;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -94,8 +105,87 @@ public class PublicBikeManagement_1018 {
         // 先用dijkstra求最短路径, 可能有多条
         dijkstraFunc(graph, N + 1);
 
-        // dfs来求所有最短路径中, 第二标尺最优的那个
+        // 更新了__preList, 那么接下来dfs来遍历, 同时看哪个是最优的
+        // 初始化临时路径
+        __tempPath = new LinkedList<>();
 
+        // 初始化最终路径
+        __resultPath = new LinkedList<>();
+
+        // dfs来求所有最短路径中, 第二标尺最优的那个
+        dfs(stationProblem, 0, C);
+
+        // 输出结果
+        // 从start带出的最少车辆数目
+        System.out.print(minNeed);
+        System.out.print(" ");
+        // 最短路径
+        for (int i = __resultPath.size() - 1; i >= 0; i--) {
+            System.out.print(__resultPath.get(i));
+            if (i != 0) {
+                System.out.print("->");
+            }
+        }
+        System.out.print(" ");
+        // 带回车子的数量
+        System.out.print(takeBack);
+    }
+
+    /**
+     * @param v      递归每层的点
+     * @param start  起点
+     * @param weight 每个点的点权, 可能为负数
+     */
+    private static void dfs(int v, int start, int[] weight) {
+        if (v == start) {
+            // 加入这个点
+            __tempPath.add(v);
+            // 开始遍历__tempPath来计算, 需要倒着枚举, 这样子才是正过来的路径
+            // 这条路径上, 需要从start带出的车子数量
+            int need = 0;
+            // 这条路径上, 需要带回到start的车子数量
+            int remain = 0;
+            for (int i = __tempPath.size() - 1; i >= 0; i--) {
+                int node = __tempPath.get(i);
+                // 该点点权 >= 0, 那么就需要从该点带走车子
+                if (weight[node] >= 0) {
+                    remain += weight[node];
+                } else {
+                    // 该点点权 < 0, 给该点补充车子
+                    if (remain + weight[node] < 0) {
+                        // 现在有的车子数量还不够补充, 那么就要从start点带出车子来补充
+                        need = Math.abs(remain + weight[node]);
+                        remain = 0;
+                    } else {
+                        // 现有的车子数量足够了, 那么不需要从start带车子出来, 直接用remian的车子 补充
+                        remain -= weight[node];
+                    }
+                }
+            }
+
+            // 从start带出数目小
+            if (need < minNeed) {
+                minNeed = need;
+                takeBack = remain;
+                // 最短路径赋值
+                __resultPath.clear();
+                __resultPath.addAll(__tempPath);
+            } else if (need == minNeed && remain < takeBack) {
+                // 带出数目一样, 带回数目少, 优化带回数目, 更新最短路径
+                takeBack = remain;
+                __resultPath.clear();
+                __resultPath.addAll(__tempPath);
+            }
+
+            __tempPath.remove(__tempPath.size() - 1);
+            return;
+        }
+
+        __tempPath.add(v);
+        for (Integer node : __pre.get(v)) {
+            dfs(node, start, weight);
+        }
+        __tempPath.remove(__tempPath.size() - 1);
     }
 
     /**
@@ -114,9 +204,10 @@ public class PublicBikeManagement_1018 {
                 }
             }
             // 没有找到
-            if (u==-1) {
+            if (u == -1) {
                 return;
             }
+            hasVisited[u] = true;
             // 找到了, 那么遍历所有的点v, 能通过u到达的v, 更新__d
             for (int v = 0; v < n; v++) {
                 // 没有被访问过 && 能通过u到达
@@ -136,10 +227,6 @@ public class PublicBikeManagement_1018 {
                     }
                 }
             }
-
         }
-
     }
-
-
 }
