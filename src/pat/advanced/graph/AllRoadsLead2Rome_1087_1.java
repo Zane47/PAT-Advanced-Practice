@@ -2,7 +2,7 @@ package pat.advanced.graph;
 
 import java.util.*;
 
-/**
+/**dijkstra + dfs
  * the least cost while gaining the most happiness.
  * the destination is always ROM
  * <p>
@@ -32,7 +32,7 @@ import java.util.*;
  * solution: dijkstra + dfs
  * 先用dijkstra求出所有的最短路径, 然后再用第二第三标尺来求最终结果
  */
-public class AllRoadsLead2Rome_1087 {
+public class AllRoadsLead2Rome_1087_1 {
     private static final int INF = 0x3fffffff;
     // 名字对应编号
     private static Map<String, Integer> __name2Index;
