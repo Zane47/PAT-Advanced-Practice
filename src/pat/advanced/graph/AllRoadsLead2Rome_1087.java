@@ -55,10 +55,10 @@ public class AllRoadsLead2Rome_1087 {
     private static List<Integer> __resultPath;
 
     // 记录最大点权
-    private static double __maxWeight = INF;
+    private static double __maxWeight = -1;
 
     // 记录平均点权
-    private static double __avgWeight = INF;
+    private static double __avgWeight = -1;
 
     // 记录最短路径条数
     private static int __numOfShortestPath = 0;
@@ -110,6 +110,8 @@ public class AllRoadsLead2Rome_1087 {
 
         // 初始化最短路径距离__distance
         __d = new int[N];
+        Arrays.fill(__d, INF);
+        // start点是0
         __d[0] = 0;
 
         // 初始化最短路径__preList
@@ -140,17 +142,17 @@ public class AllRoadsLead2Rome_1087 {
         // the cost
         int cost = 0;
         for (int i = __resultPath.size() - 1; i > 0; i--) {
-            cost += graph[i][i-1];
+            cost += graph[__resultPath.get(i)][__resultPath.get(i-1)];
         }
         System.out.print(cost);
         System.out.print(" ");
 
         // the happiness
-        System.out.print(__maxWeight);
+        System.out.print((int) __maxWeight);
         System.out.print(" ");
 
         // the avg happiness
-        System.out.println(__avgWeight);
+        System.out.println((int) __avgWeight);
 
         // the route: city1->city2->...->ROM
         for (int i = __resultPath.size() - 1; i >= 0; i--) {
@@ -163,9 +165,11 @@ public class AllRoadsLead2Rome_1087 {
     }
 
     /**
-     * @param v
-     * @param start
-     * @param weight
+     * 遍历所有的前驱结点 -> 拼出完整路径 -> 根据第二, 第三标尺做比较
+     *
+     * @param v      当前结点
+     * @param start  起始结点
+     * @param weight happiness
      */
     private static void dfs(int v, int start, int[] weight) {
         if (v == start) {
@@ -174,8 +178,8 @@ public class AllRoadsLead2Rome_1087 {
             __tempPath.add(v);
             // 该最短路径的点权和
             double tempWeight = 0;
-            // 该最短路径的顶点个数, 用来计算平均weight
-            int numOfTempPath = __tempPath.size();
+            // 该最短路径的顶点个数, 用来计算平均weight, 要-1
+            int numOfTempPath = __tempPath.size() - 1;
             // 计算这条__tempPath的第二第三标尺
             for (int i = __tempPath.size() - 1; i >= 0; i--) {
                 Integer node = __tempPath.get(i);
