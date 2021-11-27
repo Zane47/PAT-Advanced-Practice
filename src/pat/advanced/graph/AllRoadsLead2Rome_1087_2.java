@@ -114,9 +114,41 @@ public class AllRoadsLead2Rome_1087_2 {
 
         int destination = __name2Index.get("ROM");
 
-        System.out.print();
+        // # of different routes with least cost
+        System.out.print(__numOfPath[destination]);
+        System.out.print(" ");
 
+        // the cost
+        System.out.print(__d[destination]);
+        System.out.print(" ");
 
+        //
+        // the happiness
+        System.out.print(happiness[destination]);
+        System.out.print(" ");
+
+        // the avg happiness
+        System.out.println(happiness[destination] / __numOfPoint[destination]);
+
+        // path, 输出路径
+        dfs(destination, 0);
+    }
+
+    /**
+     * dfs 打印路径
+     *
+     * @param destination 目的地ROM
+     * @param start       出发地
+     */
+    private static void dfs(int destination, int start) {
+        if (destination == start) {
+            System.out.print(start);
+            return;
+        }
+
+        dfs(__pre[destination], start);
+        System.out.print("->");
+        System.out.print(destination);
     }
 
     /**

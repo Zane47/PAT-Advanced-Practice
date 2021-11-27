@@ -139,7 +139,7 @@ public class AllRoadsLead2Rome_1087_1 {
         System.out.print(__numOfShortestPath);
         System.out.print(" ");
 
-        // the cost
+        // the cost, 其实就是__d?
         int cost = 0;
         for (int i = __resultPath.size() - 1; i > 0; i--) {
             cost += graph[__resultPath.get(i)][__resultPath.get(i-1)];
