@@ -41,6 +41,7 @@ import java.util.Scanner;
  * 所以这里在dfs的参数中记录当前底数之和facSum, 避免找到一组解的时候计算一组
  * 2.同1, 不要找到一组解的时候才判断temp序列和ans序列的字典序关系(第三标尺)
  * 让index从大到小遍历, 这样子就可以直接满足
+ * 3.注意点!!!, 初始化fac数组的时候, 必须要是i <= Math.sqrt(N) + 1, 不然测试点4错误
  */
 public class IntegerFactorization_1103 {
     // 要凑的和
@@ -76,8 +77,9 @@ public class IntegerFactorization_1103 {
 
         // 初始化__fac
         __fac = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            if (Math.pow(i, P) >= N) {
+        // 注意点!!!, 这里必须要是i <= Math.sqrt(N) + 1, 不然测试点4错误
+        for (int i = 0; i <= Math.sqrt(N) + 1; i++) {
+            if (Math.pow(i, P) > N) {
                 break;
             }
             __fac.add((int) Math.pow(i, P));
@@ -100,16 +102,21 @@ public class IntegerFactorization_1103 {
             for (int i = 0; i < __resultList.size(); i++) {
                 System.out.print(__resultList.get(i));
                 System.out.print("^");
-                System.out.print(K);
+                System.out.print(P);
 
                 if (i != __resultList.size() - 1) {
                     System.out.print(" + ");
                 }
             }
         }
+    }
 
-
-
+    private static Integer power(int n, int k) {
+        int res = 1;
+        for (int i = 0; i < k; i++) {
+            res *= n;
+        }
+        return res;
     }
 
     /**
@@ -137,15 +144,14 @@ public class IntegerFactorization_1103 {
         if (nowK > K || nowSum > N) {
             return;
         }
-        // 下一层
+        // 下一层, fac[0]不需要选择
         if (index - 1 >= 0) {
             // 这一层底数加入序列
             __tempList.add(index);
-            int newNowK = nowK + 1;
-            int newNowSum = nowSum + __fac.get(index);
-            int newNowFacSum = nowFacSum + index;
+
             // 选择分支
-            dfs(index, newNowK, newNowSum, newNowFacSum);
+            dfs(index, nowK + 1, nowSum + __fac.get(index), nowFacSum + index);
+
             // 选分支结束, 把选择的数字, 最后一位删除掉, 回溯到上一层
             __tempList.remove(__tempList.size() - 1);
 
