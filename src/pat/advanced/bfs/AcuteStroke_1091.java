@@ -149,7 +149,6 @@ public class AcuteStroke_1091 {
      * 校验是否越界
      */
     private static boolean check(int x, int y, int z) {
-        // 被访问过
         return x >= 0 && x < M && y >= 0 && y < N && z >= 0 && z < L &&
                 !__hasVisited[z][x][y] && __brain[z][x][y] == 1;
     }
