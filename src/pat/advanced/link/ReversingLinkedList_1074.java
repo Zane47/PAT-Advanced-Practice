@@ -1,7 +1,7 @@
 package pat.advanced.link;
 
-/**
- * 反转链表
+/**todo:
+ * 每k个元素反转链表
  */
 public class ReversingLinkedList_1074 {
     public static void main(String[] args) {
