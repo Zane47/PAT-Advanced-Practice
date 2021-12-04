@@ -18,10 +18,52 @@ import java.util.Scanner;
  * <p>
  * 自己画一下N从6到10
  * (1)这里N最大是80, 数据量不大, 可以用递推, 每一次都先加到底部, 然后看能否转移到两侧
- * (2)可以看的出来, 其实n1 = n3 = (N+2)/3, 向下取整的, 然后根据三者和求n2即可
+ * (2)可以看的出来, 其实n1 = n3 = (N+2)/3, 向下取整, 然后根据三者和求n2即可
  */
 public class HelloWorld4U_1031 {
     public static void main(String[] args) {
+        // 递推 + 二维数组输出
+        // solution1();
+
+        // n1 = n3 = (N+2)/3, 向下取整 + 直接输出
+        Scanner sc = new Scanner(System.in);
+        // str contains no white space
+        String[] strs = sc.next().split("");
+        // [5, 80]
+        int N = strs.length;
+
+        int n1 = (N + 2) / 3;
+        int n3 = n1;
+        int n2 = N + 2 - n1 - n3;
+
+        // 直接输出
+        // n1-1行
+        for (int i = 0; i < n1 - 1; i++) {
+            // 每一行第一个
+            System.out.print(strs[i]);
+
+            // 输出n2-2个空格
+            for (int j = 0; j < n2 - 2; j++) {
+                System.out.print(" ");
+            }
+
+            // 每一行最后一个
+            System.out.println(strs[N - i - 1]);
+
+        }
+
+        // 最后一行
+        for (int i = 0; i < n2; i++) {
+            System.out.print(strs[n1 - 1 + i]);
+        }
+
+    }
+
+
+    /**
+     * 递推 + 二维数组输出
+     */
+    private static void solution1() {
         Scanner sc = new Scanner(System.in);
         // str contains no white space
         String[] strs = sc.next().split("");
@@ -49,13 +91,12 @@ public class HelloWorld4U_1031 {
             Arrays.fill(strings[i], " ");
         }
 
-
         int v1 = 0;
         // 第一列
         for (int i = 0; i < n1; i++) {
             strings[i][0] = strs[v1++];
         }
-        // 最后一行
+        // 最后一行, 从第二列开始
         for (int i = 1; i < n2; i++) {
             strings[n1 - 1][i] = strs[v1++];
         }
@@ -71,11 +112,10 @@ public class HelloWorld4U_1031 {
             }
             System.out.println();
         }
-
     }
 
     /**
-     * 从底部转移到上面
+     * 从底部转移到上面, 是否可行
      */
     private static boolean check(int n1, int n2, int n3, int i) {
         n2 = n2 - 2;
