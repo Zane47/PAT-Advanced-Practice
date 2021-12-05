@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -22,15 +23,45 @@ import java.util.Scanner;
 public class BeUnique_1041 {
     public static void main(String[] args) throws IOException {
 
-        // 4, 5 测试点超时
-        Solution1();
+        // todo: 4, 5 测试点超时
+        // Solution1();
 
 
+        // 依旧超时
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] nums = new int[100001];
 
+        int[] hashTable = new int[100001];
+
+
+        for (int i = 0; i < N; i++) {
+            nums[i] = sc.nextInt();
+            hashTable[nums[i]]++;
+        }
+        int result = 0;
+
+        for (int i = 0; i < N; i++) {
+            if (hashTable[nums[i]] == 1) {
+                result = nums[i];
+                break;
+            }
+        }
+
+        if (result == 0) {
+            System.out.println("None");
+        } else {
+            System.out.println(result);
+        }
 
     }
 
-
+    /**
+     * 方法1
+     * 测试点4, 5超时
+     *
+     * @throws IOException
+     */
     private static void Solution1() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String s = br.readLine();
