@@ -26,7 +26,7 @@ public class StringSubtraction_1050 {
         // 都超时
         solution1();
 
-
+        // 仍然超时
         // 使用hash的方式, 这样子直接可以得到truefalse
         // Ascii128个, boolean数组
         Scanner sc = new Scanner(System.in);
