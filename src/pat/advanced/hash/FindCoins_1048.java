@@ -11,15 +11,20 @@ import java.util.Scanner;
  * whether or not she can find two coins to pay for it.
  * <p>
  * 注意点: 这里的hashtable不能只开500, 因为m-num[i]可能大于500
+ * 这里有个坑，哈希表尽量做两倍以上，因为coin面额限制在500以内，但目标M在1000以内，
+ * 它们做差，可能出现1000-1=999的情况，所以数组hashtable要做到1000的大小。
  */
 public class FindCoins_1048 {
     public static void main(String[] args) {
 
-        // 测试点3, 4超时
-        solution1();
+        // 哈希表, 测试点3, 4超时
+        // solution1();
 
+        // 双指针, 测试点3, 4超时
+        // solution2();
 
-        /*Scanner sc = new Scanner(System.in);
+        // liu chuo, java下测试点3, 4仍然超时, C++版本不超时
+        Scanner sc = new Scanner(System.in);
         // the total number of coins, <=10^5
         int N = sc.nextInt();
         // the amount of money Eva has to pay, <=10^3
@@ -27,13 +32,63 @@ public class FindCoins_1048 {
         // N face values of the coins, which are all positive numbers no more than 500
         int[] coins = new int[N];
 
-        // hashtable
-        int[] table = new int[501];
+        int[] hashtable = new int[1001];
 
-        for (int i = 0; i < N;i++) {
+        for (int i = 0; i < N; i++) {
             coins[i] = sc.nextInt();
-            table[coins[i]]++;
-        }*/
+            hashtable[coins[i]]++;
+        }
+        // 从小到大遍历所有1000个硬币
+        for (int i = 0; i < 1001; i++) {
+            if (hashtable[i] != 0) {
+                hashtable[i]--;
+                // coin的金额小于总金额 && 剩下的金额coin也存在
+                if (M > i && hashtable[M - i] != 0) {
+                    System.out.print(i + " " + (M - i));
+                    return;
+                }
+            }
+        }
+        System.out.print("No Solution");
+
+    }
+
+
+    /**
+     * 双指针
+     */
+    private static void solution2() {
+        Scanner sc = new Scanner(System.in);
+        // the total number of coins, <=10^5
+        int N = sc.nextInt();
+        // the amount of money Eva has to pay, <=10^3
+        int M = sc.nextInt();
+        // N face values of the coins, which are all positive numbers no more than 500
+        int[] coins = new int[N];
+
+        for (int i = 0; i < N; i++) {
+            coins[i] = sc.nextInt();
+        }
+
+        // 排序
+        Arrays.sort(coins);
+
+        // 双指正
+        int v1 = 0;
+        int v2 = coins.length - 1;
+
+        while (v1 < v2) {
+            int sum = coins[v1] + coins[v2];
+            if (sum > M) {
+                v2--;
+            } else if (sum < M) {
+                v1++;
+            } else {
+                System.out.print(coins[v1] + " " + coins[v2]);
+                return;
+            }
+        }
+        System.out.print("No Solution");
     }
 
     /**
@@ -50,7 +105,7 @@ public class FindCoins_1048 {
         int[] coins = new int[N];
 
         // hashtable
-        int[] table = new int[10001];
+        int[] table = new int[1001];
 
         for (int i = 0; i < N; i++) {
             coins[i] = sc.nextInt();
@@ -59,22 +114,13 @@ public class FindCoins_1048 {
 
         Arrays.sort(coins);
 
-        for (int i : coins) {
-            /*table[coin]--;
+        for (int coin : coins) {
+            table[coin]--;
             int rest = M - coin;
             if (rest >= 0 && table[rest] != 0) {
                 System.out.print(coin + " " + rest);
                 return;
-            }*/
-
-            if (table[i] >= 0 && table[M - i] >= 0) {
-                if ((M - i == i) && table[i] <= 1) {
-                    continue;
-                }
-                System.out.print(i + " " + (M - i));
-                return;
             }
-
         }
         System.out.print("No Solution");
 
