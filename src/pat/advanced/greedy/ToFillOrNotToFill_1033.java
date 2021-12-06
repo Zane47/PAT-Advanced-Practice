@@ -1,6 +1,7 @@
 package pat.advanced.greedy;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -25,18 +26,22 @@ import java.util.Scanner;
  * 2. 优先到第一个价格更低的点? 0 -> 1 -> 3 -> 5 -> 6 -> 7 -> 8 =  right
  * <p>
  * 所以, 优先到达第一个价格更低的点!!!!
+ *
+ * 牛客https://www.nowcoder.com/pat/5/problem/4020 过得多
+ * 但是pat过得少
+ *
+ *
  */
 public class ToFillOrNotToFill_1033 {
 
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
         // the maximum capacity of the tank, <=100
-        int cMax = sc.nextInt();
+        double cMax = sc.nextDouble();
         // D (<=30000), the distance between Hangzhou and the destination city
-        int D = sc.nextInt();
+        double D = sc.nextDouble();
         // the average distance per unit gas that the car can run;<=20
-        int dAvg = sc.nextInt();
+        double dAvg = sc.nextDouble();
         // and N (≤ 500), the total number of gas stations
         int N = sc.nextInt();
 
@@ -52,10 +57,20 @@ public class ToFillOrNotToFill_1033 {
         stations[N].price = 0;
         stations[N].distance = D;
         // step1: 按照距离递增, 如果第一个不是0, 直接fail
-        Arrays.sort(stations, (o1, o2) -> o1.distance - o2.distance);
+        // Arrays.sort(stations, (o1, o2) -> (int) (o1.distance - o2.distance));
 
-        if (stations[0].distance > 0) {
-            System.out.println("The maximum travel distance = " + 0.00);
+        // !!!重要, 这里不可以用lamba表达式,
+        Arrays.sort(stations, new Comparator<GasStation>() {
+            @Override
+            public int compare(GasStation o1, GasStation o2) {
+                return (int) (o1.distance - o2.distance);
+            }
+        });
+
+        // 起始的数字不是0, 说明起点没有加油站, 并且邮箱没有油
+
+        if ((int)stations[0].distance != 0) {
+            System.out.println("The maximum travel distance = 0.00");
             return;
         }
 
@@ -69,7 +84,7 @@ public class ToFillOrNotToFill_1033 {
         int nowPoint = 0;
 
         // 满油情况下可以走的最远距离
-        int maxDistance = cMax * dAvg;
+        double maxDistance = cMax * dAvg;
 
         while (nowPoint != N) {
             // 满油情况下可以走到的最远的station
@@ -77,19 +92,19 @@ public class ToFillOrNotToFill_1033 {
 
             // 加满了油仍然没有可以到达的点
             if (longestAvailableStation == 0) {
-                System.out.printf("The maximum travel distance = %d.00", stations[nowPoint].distance + maxDistance);
+                System.out.printf("The maximum travel distance = %.2f", stations[nowPoint].distance + maxDistance);
                 return;
             }
             // 从nowPoint到这个点, 找第一个更低的油价, 如果没有的话, 找范围内最低的油价
             int nextPoint = findNextPoint(stations, nowPoint, longestAvailableStation);
-            System.out.print(nextPoint);
+            //System.out.print(nextPoint);
             // result 加上从起点到终点, 刚好加的油的价格
-            double nextDistance = (double) stations[nextPoint].distance - stations[nowPoint].distance;
+            double nextDistance = stations[nextPoint].distance - stations[nowPoint].distance;
             result += (nextDistance / dAvg) * stations[nowPoint].price;
 
             nowPoint = nextPoint;
         }
-        System.out.println();
+        //System.out.println();
 
         System.out.printf("%.2f", result);
 
@@ -132,9 +147,9 @@ public class ToFillOrNotToFill_1033 {
      * @param nowPoint    现在车子在的点
      * @param maxDistance 车子可以行驶的最远距离, 常数
      */
-    private static int calcNextLongestStation(GasStation[] stations, int nowPoint, int maxDistance) {
+    private static int calcNextLongestStation(GasStation[] stations, int nowPoint, double maxDistance) {
         // 从nowpoint出发, 加满油可以达到的最远的距离, 距离: 是相对于起点而言的
-        int maxAvailDistance = stations[nowPoint].distance + maxDistance;
+        double maxAvailDistance = stations[nowPoint].distance + maxDistance;
 
         // 从后往前, 找第一个能到达的点
         for (int i = stations.length - 1; i > nowPoint; i--) {
@@ -147,7 +162,7 @@ public class ToFillOrNotToFill_1033 {
 
     static class GasStation {
         double price;
-        int distance;
+        double distance;
     }
 
 }
