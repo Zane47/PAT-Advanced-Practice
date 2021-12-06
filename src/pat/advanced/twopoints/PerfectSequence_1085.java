@@ -19,6 +19,8 @@ import java.util.Scanner;
  * 要用long, 范围:[-2^63, 2^63-1]。占用8个字节 (19位数字)
  *
  * 测试点4超时
+ *
+ * -> 二分的思路 binary\PerfectSequence_1085
  */
 public class PerfectSequence_1085 {
     public static void main(String[] args) {
