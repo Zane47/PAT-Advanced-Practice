@@ -3,7 +3,7 @@ package pat.advanced.twopoints;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
+/** O(n)
  * M <= m×p
  * <p>
  * <p>
