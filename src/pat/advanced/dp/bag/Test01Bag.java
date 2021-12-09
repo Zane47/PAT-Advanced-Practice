@@ -2,7 +2,7 @@ package pat.advanced.dp.bag;
 
 import java.util.Arrays;
 
-/**
+/**todo: 有问题 以leetcode的为准
  * 01背包例题
  * 有n个物品, 重量分别为weight[i], 每个的价值是value[i]. 现有一个容量V的背包, 问如何选取物品放入背包, 可以让背包内物品的总价值最大
  * 其中每种物品都只有一件
@@ -68,7 +68,7 @@ public class Test01Bag {
 
         for (int i = 1; i <= n; i++) {
             for (int v = weight[i]; v <= V; v++) {
-                dp[i][v] = Math.max(dp[i - 1][v], dp[i - 1][v - weight[i]] + value[i]);
+                dp[i][v] = Math.max(dp[i - 1][v], dp[i - 1][v - weight[i - 1]] + value[i - 1]);
             }
         }
 
