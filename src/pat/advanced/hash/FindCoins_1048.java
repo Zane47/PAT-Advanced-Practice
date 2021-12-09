@@ -4,7 +4,7 @@ package pat.advanced.hash;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
+/**进阶到背包问题 -> 1048
  * for each bill, she could only use exactly two coins to pay the exact amount.
  * Since she has as many as 10^5 coins with her,
  * tell her, for any given amount of money,
