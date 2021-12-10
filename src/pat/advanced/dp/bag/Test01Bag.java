@@ -36,12 +36,12 @@ public class Test01Bag {
     }
 
     private static void solution2(int n, int V, int[] weight, int[] value) {
-        int[] dp = new int[V];
+        int[] dp = new int[V + 1];
 
         // 边界
         Arrays.fill(dp, 0);
 
-        for (int i = 1; i <= n; i++) {
+        for (int i = 0; i < n; i++) {
             for (int v = V; v >= weight[i]; v--) {
                 //逆序枚举v
                 dp[v] = Math.max(dp[v], dp[v - weight[i]] + value[i]);

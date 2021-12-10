@@ -1,6 +1,7 @@
 package pat.advanced.dp.bag;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -32,7 +33,7 @@ public class FindMoreCoins_1068 {
         int M = sc.nextInt();
 
         // 硬币面值
-        int[] values = new int[N];
+        Integer[] values = new Integer[N];
         for (int i = 0; i < values.length; i++) {
             values[i] = sc.nextInt();
         }
@@ -41,8 +42,9 @@ public class FindMoreCoins_1068 {
         boolean[] flag = new boolean[N];
         Arrays.fill(flag, false);
 
-        // 因为要字典序最小
-        Arrays.sort(values);
+        // 倒序, todo: 为什么?
+        Arrays.sort(values, Collections.reverseOrder());
+
 
 
 
