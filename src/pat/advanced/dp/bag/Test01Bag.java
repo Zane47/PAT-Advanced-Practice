@@ -2,7 +2,8 @@ package pat.advanced.dp.bag;
 
 import java.util.Arrays;
 
-/**todo: 有问题 以leetcode的为准
+/**
+ * todo: 有问题 以leetcode的为准
  * 01背包例题
  * 有n个物品, 重量分别为weight[i], 每个的价值是value[i]. 现有一个容量V的背包, 问如何选取物品放入背包, 可以让背包内物品的总价值最大
  * 其中每种物品都只有一件
@@ -14,17 +15,22 @@ import java.util.Arrays;
  */
 public class Test01Bag {
     public static void main(String[] args) {
-        int n = 5;
+        /*int n = 5;
         int V = 8;
         int[] weight = new int[]{3, 5, 1, 2, 2};
-        int[] value = new int[]{4, 5, 2, 1, 3};
+        int[] value = new int[]{4, 5, 2, 1, 3};*/
+
+        int n = 3;
+        int V = 4;
+        int[] weight = {1, 3, 4};
+        int[] value = {15, 20, 30};
 
         // 二维dp
         solution1(n, V, weight, value);
 
 
         // 一维, 更小的空间复杂度
-        solution2(n, V, weight, value);
+        // solution2(n, V, weight, value);
 
 
     }
@@ -67,7 +73,7 @@ public class Test01Bag {
         }
 
         for (int i = 1; i <= n; i++) {
-            for (int v = weight[i]; v <= V; v++) {
+            for (int v = weight[i - 1]; v <= V; v++) {
                 dp[i][v] = Math.max(dp[i - 1][v], dp[i - 1][v - weight[i - 1]] + value[i - 1]);
             }
         }
