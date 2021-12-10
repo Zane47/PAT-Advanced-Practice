@@ -3,7 +3,7 @@ package pat.advanced.dp.bag;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
+/**todo: 运行错误
  * http://codeup.hustoj.com/problem.php?cid=100000631&pid=0
  * 【问题描述】
  * 有一个箱子的容量为V（V为正整数，且满足0≤V≤20000），同时有n件物品（0的体积值为正整数。
