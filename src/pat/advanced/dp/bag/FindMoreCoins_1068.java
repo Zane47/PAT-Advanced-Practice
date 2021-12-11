@@ -47,6 +47,7 @@ public class FindMoreCoins_1068 {
 
         for (int i = 0; i < N; i++) {
             for (int v = M; v >= values[i]; v--) {
+                // 等于的时候也要, 倒序, -> 字典序最小
                 if (dp[v] <= dp[v - values[i]] + values[i]) {
                     dp[v] = dp[v - values[i]] + values[i];
                     // 在硬币总和v的情况下, 放入第i个硬币
@@ -57,6 +58,11 @@ public class FindMoreCoins_1068 {
                 }
             }
         }
+
+        // 打印choice数组
+        /*for (int[] ints : choice) {
+            System.out.println(Arrays.toString(ints));
+        }*/
 
 
         // 标记放入背包的硬币
