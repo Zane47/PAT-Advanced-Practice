@@ -76,8 +76,8 @@ public class FindMoreCoins_1068 {
         if (dp[M] != M) {
             System.out.println("No Solution");
         } else {
-            // 记录最优路径
-            int num = 0;
+            // 记录最优路径个数
+            int count = 0;
             int v = M;
 
             // 从后往前遍历所有的硬币
@@ -86,7 +86,7 @@ public class FindMoreCoins_1068 {
                 if (choice[k][v] == 1) {
                     flag[k] = true;
                     v -= values[k];
-                    num++;
+                    count++;
                 } else if (choice[k][v] == 0) {
                     flag[k] = false;
                 }
@@ -97,8 +97,8 @@ public class FindMoreCoins_1068 {
             for (int i = N - 1; i >= 0; i--) {
                 if (flag[i]) {
                     System.out.print(values[i]);
-                    num--;
-                    if (num > 0) {
+                    count--;
+                    if (count > 0) {
                         System.out.print(" ");
                     }
                 }
