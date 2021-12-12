@@ -23,11 +23,12 @@ public class Test01Bag_my2 {
 
         //遍历顺序：先遍历物品，再遍历背包容量
         // [0, n), weight和value就是第i个
+        // i 每进行一轮迭代，dp[v] 其实就相当于 dp[i-1][v]，所以只需要一维数组就够用了。
         for (int i = 0; i < n; i++) {
             for (int v = V; v >= weight[i]; v--) {
-                // 此时dp[j]有两个选择，
-                // 1.取自己dp[j] 相当于 二维dp数组中的dp[i-1][j]，即不放物品i，
-                // 2.取dp[j - weight[i]] + value[i]，即放物品i，
+                // 此时dp[v]有两个选择，
+                // 1.取自己dp[v] 相当于 二维dp数组中的dp[i-1][v]，即不放物品i，
+                // 2.取dp[v - weight[i]] + value[i]，即放物品i，
                 dp[v] = Math.max(dp[v], dp[v - weight[i]] + value[i]);
             }
 
