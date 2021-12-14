@@ -10,9 +10,14 @@ import java.util.Scanner;
  * 然后从根结点开始每往子结点走一层，该层的货物价格将会在父亲结点的价格上增加r%。
  * 求叶子结点处能获得的最低价格以及能提供最低价格的叶子结点的个数
  */
-public class LowestPriceInSupplyChain_1106 {
+public class LowestPriceInSupplyChain_1106_dfs2 {
 
-    private static int[] __hashTable;
+    private static double __price = Math.pow(10, 10);
+    private static int __depth = 0;
+    private static int __num = 0;
+
+    private static double P;
+    private static double r;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -21,9 +26,9 @@ public class LowestPriceInSupplyChain_1106 {
         // ID are numbered from 0 to N−1, the root supplier's ID is 0
         int N = sc.nextInt();
         // the price given by the root supplier
-        double P = sc.nextDouble();
+        P = sc.nextDouble();
         // the percentage rate of price increment for each distributor or retailer.
-        double r = sc.nextDouble();
+        r = sc.nextDouble();
         r /= 100;
 
         TreeNode[] treeNodes = new TreeNode[N];
@@ -39,8 +44,6 @@ public class LowestPriceInSupplyChain_1106 {
             }
         }
 
-        __hashTable = new int[N];
-        Arrays.fill(__hashTable, 0);
 
         dfs(treeNodes, 0, 0);
 
@@ -48,20 +51,8 @@ public class LowestPriceInSupplyChain_1106 {
         // the lowest price we can expect from some retailers, accurate up to 4 decimal places
         // the number of retailers that sell at the lowest price.
 
-        // 最高层叶子结点的depth(.4f), 和该层叶子结点的个数
-        int __highestLeftNodeNum = 0;
-        int __highestDepth = 0;
-        // hashTable = [0, 0, 2, 2, 0, 0, 0, 0, 0, 0]
-        // 遍历到第一个不是0的就可以了
-        for (int i = 0; i < __hashTable.length; i++) {
-            if (__hashTable[i] != 0) {
-                __highestDepth = i;
-                __highestLeftNodeNum = __hashTable[i];
-                break;
-            }
-        }
 
-        System.out.printf("%.4f %d", P * Math.pow(1 + r, __highestDepth), __highestLeftNodeNum);
+        System.out.printf("%.4f %d", __price, __num);
 
 
     }
@@ -72,8 +63,16 @@ public class LowestPriceInSupplyChain_1106 {
      * @param depth
      */
     private static void dfs(TreeNode[] treeNodes, int nowNode, int depth) {
+        // 到达叶子结点
         if (treeNodes[nowNode].children.size() == 0) {
-            __hashTable[depth]++;
+            double price = Math.pow(1 + r, depth) * P;
+            if (price < __price) {
+                __price = price;
+                __depth = depth;
+                __num = 1;
+            } else if (__depth == depth) {
+                __num++;
+            }
         }
 
         for (int i = 0; i < treeNodes[nowNode].children.size(); i++) {
