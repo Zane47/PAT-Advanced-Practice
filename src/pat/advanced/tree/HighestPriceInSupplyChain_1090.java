@@ -98,7 +98,6 @@ public class HighestPriceInSupplyChain_1090 {
     }
 
     static class TreeNode {
-        double value;
         List<Integer> children;
     }
 
