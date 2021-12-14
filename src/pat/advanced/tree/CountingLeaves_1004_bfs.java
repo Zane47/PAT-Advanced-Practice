@@ -3,7 +3,7 @@ package pat.advanced.tree;
 
 import java.util.*;
 
-/**todo: 测试点错误
+/**
  * count those family members who have no child.
  * <p>
  * 每一层有多少个leafNode
@@ -12,6 +12,23 @@ import java.util.*;
  * 01 1 02
  * ->
  * 0 1
+ *
+ * 用1094的测试数据来测试
+ * 23 13
+ * 21 1 23
+ * 01 4 03 02 04 05
+ * 03 3 06 07 08
+ * 06 2 12 13
+ * 13 1 21
+ * 08 2 15 16
+ * 02 2 09 10
+ * 11 2 19 20
+ * 17 1 22
+ * 05 1 11
+ * 07 1 14
+ * 09 1 17
+ * 10 1 18
+ * -> 0 1 0 7 1 1
  *
  *
  */
@@ -44,6 +61,9 @@ public class CountingLeaves_1004_bfs {
         }
         // [1, N]
         int[] leaf = new int[N + 1];
+        // 树有多高
+        int maxHeight = 0;
+
         Arrays.fill(leaf, 0);
         Queue<Integer> queue = new LinkedList<>();
         queue.add(1);
@@ -51,9 +71,14 @@ public class CountingLeaves_1004_bfs {
         while (!queue.isEmpty()) {
             Integer now = queue.poll();
 
+            // 树最高有多高
+            if (treeNodes[now].level > maxHeight) {
+                maxHeight = treeNodes[now].level;
+            }
+
             // leafNode
             if (treeNodes[now].children.size() == 0) {
-                leaf[now]++;
+                leaf[treeNodes[now].level]++;
             }
 
             for (int i = 0; i < treeNodes[now].children.size(); i++) {
@@ -64,9 +89,9 @@ public class CountingLeaves_1004_bfs {
         }
 
         // output
-        for (int i = 1; i <= N; i++) {
+        for (int i = 0; i <= maxHeight; i++) {
             System.out.print(leaf[i]);
-            if (i != N) {
+            if (i != maxHeight) {
                 System.out.print(" ");
             }
         }
