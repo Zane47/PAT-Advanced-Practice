@@ -3,7 +3,7 @@ package pat.advanced.tree;
 
 import java.util.*;
 
-/**
+/**ac
  * count those family members who have no child.
  * <p>
  * 每一层有多少个leafNode
