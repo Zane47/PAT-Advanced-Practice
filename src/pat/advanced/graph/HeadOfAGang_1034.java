@@ -138,7 +138,7 @@ public class HeadOfAGang_1034 {
             @Override
             public int compare(int[] o1, int[] o2) {
                 String s1 = __indexToName.get(o1[0]);
-                String s2 = __indexToName.get(o1[1]);
+                String s2 = __indexToName.get(o2[1]);
                 return s1.compareTo(s2);
             }
         });
@@ -201,7 +201,8 @@ public class HeadOfAGang_1034 {
         for (int i = 0; i < __number; i++) {
             // 没有被访问过 && 能通过nowNode到达
             if (!__hasVisited[i] && __graph[i][nowNode] != 0) {
-                __totalRelationWeight += __weight[i];
+                // 边权增加
+                __totalRelationWeight += __graph[i][nowNode];
 
                 dfs(i);
             }
