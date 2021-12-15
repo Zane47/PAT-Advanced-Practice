@@ -21,10 +21,9 @@ import java.util.*;
  * 2. 每个人的点权是边权之和, 那么输入的时候每一行数据都给两个顶点加上权值
  * 3. 遍历图, DFS, 要获取: (1)点权最大的结点, (2)每个连通分量的顶点个数 (3)total weight
  * 4. dfs获得每个连通分量total, 如果符合条件, 则记录该连通分块
- *
+ * <p>
  * 注意点:
  * 1. 图可能有环, 在dfs的时候需要做处理
- *
  */
 public class HeadOfAGang_1034 {
     // 阈值K
@@ -51,9 +50,14 @@ public class HeadOfAGang_1034 {
 
 
     // ------------------------ 当dfs的时候, 每个for要使用的变量 ------------------------
-    private static int __head = 0; // 暂时的头目
-    private static int __memberNum = 0; // gang成员数量
-    private static int __totalRelationWeight = 0; // gang连通块边权之和
+
+    // 头目
+    private static int __head = 0;
+    // gang成员数量
+    private static int __memberNum = 0;
+    // gang连通块边权之和
+    private static int __totalRelationWeight = 0;
+
 
     public static void main(String[] args) {
         // ------------------------ input + initial ------------------------
@@ -129,6 +133,28 @@ public class HeadOfAGang_1034 {
         // output must be sorted according to the alphabetical order of
         // the names of the heads.
 
+        // 根据名字字母排序
+        Collections.sort(__result, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                String s1 = __indexToName.get(o1[0]);
+                String s2 = __indexToName.get(o1[1]);
+                return s1.compareTo(s2);
+            }
+        });
+
+        // print
+        System.out.println(__result.size());
+
+        for (int i = 0; i < __result.size(); i++) {
+            int[] v1 = __result.get(i);
+            System.out.print(__indexToName.get(v1[0]));
+            System.out.print(" ");
+            System.out.print(v1[1]);
+            if (i != __result.size() - 1) {
+                System.out.println();
+            }
+        }
 
     }
 
@@ -145,10 +171,10 @@ public class HeadOfAGang_1034 {
                 __memberNum = 0;
                 __totalRelationWeight = 0;
 
-                dfs();
+                dfs(i);
 
-                if (memberNum > 2 && totalRelationWeight > K) {
-                    int[] v1 = new int[]{head, totalRelationWeight};
+                if (__memberNum > 2 && __totalRelationWeight > K) {
+                    int[] v1 = new int[]{__head, __memberNum};
                     __result.add(v1);
                 }
             }
@@ -159,17 +185,15 @@ public class HeadOfAGang_1034 {
     /**
      * 遍历该连通块, 更新参数
      *
-     * @param nowNode             nowNode
-     * @param memberNum           成员数量
-     * @param totalRelationWeight 总边权和, total relation weight, 和K做比较
+     * @param nowNode 现在访问的node
      */
-    private static void dfs(/*int nowNode, int memberNum, int totalRelationWeight*/) {
+    private static void dfs(int nowNode) {
         __memberNum++;
         __hasVisited[nowNode] = true;
 
         // 如果点权大的话, 那么更新head
-        if (__weight[nowNode] > __weight[head]) {
-            head = nowNode;
+        if (__weight[nowNode] > __weight[__head]) {
+            __head = nowNode;
         }
 
         // 通过这个点再接着遍历下去
@@ -177,14 +201,10 @@ public class HeadOfAGang_1034 {
         for (int i = 0; i < __number; i++) {
             // 没有被访问过 && 能通过nowNode到达
             if (!__hasVisited[i] && __graph[i][nowNode] != 0) {
-                totalRelationWeight += __weight[i];
+                __totalRelationWeight += __weight[i];
 
-                dfs(i, memberNum, totalRelationWeight);
+                dfs(i);
             }
         }
-
-
     }
-
-
 }
