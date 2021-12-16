@@ -2,38 +2,26 @@ package pat.advanced.graph;
 
 import java.util.*;
 
-/**测试点3, 超时-2
- * The weight of a relation:
- * the total time length of all the phone calls made between the two persons.
- * <p>
- * "Gang"
- * a cluster of more than 2 persons who are related to each other
- * with total relation weight being greater than a given threshold K.
- * <p>
- * In each gang, the one with maximum total weight is the head.
- * Now given a list of phone calls, you are supposed to find the gangs and the heads.
- * <p>
- * <p>
- * 连通分量, 顶点数量>2, 每一个边权之和大于K, 就是gang
- * <p>
- * 步骤:
- * 1. 姓名和编号要做映射, 用MAP, 或者直接建立一个Gang Class
- * 2. 每个人的点权是边权之和, 那么输入的时候每一行数据都给两个顶点加上权值
- * 3. 遍历图, DFS, 要获取: (1)点权最大的结点, (2)每个连通分量的顶点个数 (3)total weight
- * 4. dfs获得每个连通分量total, 如果符合条件, 则记录该连通分块
- * <p>
- * 重要注意点:
- * 1. 可能有环, 在dfs的时候需要做处理
- * 在第一个测试用例的时候, FGH(567)形成了环, 如果正常的遍历, 就只会遍历5->6, 6->7, 而5->7会因为之前两个遍历的时候三个顶点都遍历过了而导致不再遍历
- * -> 解决思路:
- * (1) 增加边是否遍历过
- * (2) 需要主要的是, 因为dfs中会增加gangnumberNum,
- * 但是如果是因为边权没有被访问过, 但是顶点被访问过了再dfs的话, 会重复计算gangmember, 需要手动-1
+/**
+ * 超时, 但是学习这个方法的环处理
+ * 相对比1, 修改dfs环的情况
  *
- * 2. graph的size, 一开始初始化的时候直接初始化最大的可能, > 2000, 这里取2010
- * 然后再根据人数(顶点数)来初始化真正的graph大小
+ * 8 59
+ * AAA BBB 10
+ * BBB AAA 20
+ * AAA CCC 40
+ * DDD EEE 5
+ * EEE DDD 70
+ * FFF GGG 30
+ * GGG HHH 20
+ * HHH FFF 10
+ *
+ * 2
+ * AAA 3
+ * GGG 3
+ *
  */
-public class HeadOfAGang_1034 {
+public class HeadOfAGang_1034_2 {
     // 阈值K
     private static int K;
 
@@ -236,28 +224,17 @@ public class HeadOfAGang_1034 {
         for (int i = 0; i < __number; i++) {
             // 能通过nowNode到达
             if (__graph[i][nowNode] != 0) {
-                // 没有被访问过
+                // 增加连通块边权和
+                __totalRelationWeight += __graph[i][nowNode];
+
+                // 删除这条边, 防止回头
+                __graph[i][nowNode] = __graph[nowNode][i] = 0;
+
                 if (!__hasVertexVisited[i]) {
-                    // 边权增加
-                    __totalRelationWeight += __graph[i][nowNode];
-
-                    __hasPathVisited[i][nowNode] = true;
-                    __hasPathVisited[nowNode][i] = true;
-
-                    dfs(i);
-                } else if (__hasVertexVisited[i] && !__hasPathVisited[i][nowNode]) {
-                    // 被访问过, 但是有路径没有被访问过
-                    __hasPathVisited[i][nowNode] = true;
-                    __hasPathVisited[nowNode][i] = true;
-
-                    __totalRelationWeight += __graph[i][nowNode];
-
-                    // 从这里进入dfs的话, 就说明已经遍历过这个顶点,
-                    // dfs中会__memberNum++, 不需要这个++
-                    // 手动-1
-                    __memberNum--;
                     dfs(i);
                 }
+
+
             }
         }
     }
