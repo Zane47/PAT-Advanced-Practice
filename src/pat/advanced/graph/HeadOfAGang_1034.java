@@ -2,7 +2,7 @@ package pat.advanced.graph;
 
 import java.util.*;
 
-/**
+/**测试点3, 超时-2
  * The weight of a relation:
  * the total time length of all the phone calls made between the two persons.
  * <p>
@@ -26,7 +26,12 @@ import java.util.*;
  * 1. 可能有环, 在dfs的时候需要做处理
  * 在第一个测试用例的时候, FGH(567)形成了环, 如果正常的遍历, 就只会遍历5->6, 6->7, 而5->7会因为之前两个遍历的时候三个顶点都遍历过了而导致不再遍历
  * -> 解决思路:
- * (1) 点是否visited过, 改成边是否遍历过
+ * (1) 增加边是否遍历过
+ * (2) 需要主要的是, 因为dfs中会增加gangnumberNum,
+ * 但是如果是因为边权没有被访问过, 但是顶点被访问过了再dfs的话, 会重复计算gangmember, 需要手动-1
+ *
+ * 2. graph的size, 一开始初始化的时候直接初始化最大的可能, > 2000, 这里取2010
+ * 然后再根据人数(顶点数)来初始化真正的graph大小
  */
 public class HeadOfAGang_1034 {
     // 阈值K
@@ -34,7 +39,11 @@ public class HeadOfAGang_1034 {
 
     private static int[][] __graph;
 
-    private static boolean[] __hasVisited;
+    // 顶点是否遍历
+    private static boolean[] __hasVertexVisited;
+
+    // 路径是否遍历
+    private static boolean[][] __hasPathVisited;
 
     // 姓名到编号
     private static Map<String, Integer> __nameToIndex;
@@ -70,18 +79,16 @@ public class HeadOfAGang_1034 {
         // <=1k, the weight threthold
         K = sc.nextInt();
 
-        // 图初始化, 边权初始化0
-        // todo: 通话记录个数, 不是人的个数, 应该是2N
-        __graph = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            Arrays.fill(__graph[i], 0);
-        }
-        // 点权初始化
-        __weight = new int[N];
 
-        // 顶点是否被访问过
-        __hasVisited = new boolean[N];
-        Arrays.fill(__hasVisited, false);
+        // input的是通话记录个数, 不是人的个数
+        // 先初始化最大的, 然后按照人的数量(map)再初始化
+        int[][] tempGraph = new int[2010][2010];
+        for (int i = 0; i < 2010; i++) {
+            Arrays.fill(tempGraph[i], 0);
+        }
+
+        int[] tempWeight = new int[2010];
+        Arrays.fill(tempWeight, 0);
 
         __nameToIndex = new HashMap<>();
         __indexToName = new HashMap<>();
@@ -97,9 +104,9 @@ public class HeadOfAGang_1034 {
                 __indexToName.put(id, name1);
                 __number++;
                 // 点权加上去
-                __weight[id] += time;
+                tempWeight[id] += time;
             } else {
-                __weight[__nameToIndex.get(name1)] += time;
+                tempWeight[__nameToIndex.get(name1)] += time;
             }
 
             if (!__nameToIndex.containsKey(name2)) {
@@ -108,15 +115,37 @@ public class HeadOfAGang_1034 {
                 __indexToName.put(id, name2);
                 __number++;
                 // 点权加上去
-                __weight[id] += time;
+                tempWeight[id] += time;
             } else {
-                __weight[__nameToIndex.get(name2)] += time;
+                tempWeight[__nameToIndex.get(name2)] += time;
             }
 
             int v1 = __nameToIndex.get(name1);
             int v2 = __nameToIndex.get(name2);
-            __graph[v1][v2] += time;
-            __graph[v2][v1] += time;
+            tempGraph[v1][v2] += time;
+            tempGraph[v2][v1] += time;
+        }
+
+        __graph = new int[__number][__number];
+        for (int i = 0; i < __number; i++) {
+            Arrays.fill(__graph[i], 0);
+        }
+        // 点权初始化
+        __weight = new int[__number];
+        __weight = Arrays.copyOfRange(tempWeight, 0, __number);
+
+
+        // 顶点是否被访问过
+        __hasVertexVisited = new boolean[__number];
+        Arrays.fill(__hasVertexVisited, false);
+
+        // 路径是否被访问过. 默认初始化false
+        __hasPathVisited = new boolean[__number][__number];
+
+
+        // 根据map的size来初始化graph
+        for (int i = 0; i < __number; i++) {
+            __graph[i] = Arrays.copyOfRange(tempGraph[i], 0, __number);
         }
 
         __result = new ArrayList<>();
@@ -141,7 +170,7 @@ public class HeadOfAGang_1034 {
             @Override
             public int compare(int[] o1, int[] o2) {
                 String s1 = __indexToName.get(o1[0]);
-                String s2 = __indexToName.get(o2[1]);
+                String s2 = __indexToName.get(o2[0]);
                 return s1.compareTo(s2);
             }
         });
@@ -168,7 +197,7 @@ public class HeadOfAGang_1034 {
         // 遍历总人数
         for (int i = 0; i < __number; i++) {
             // 没有被访问过
-            if (!__hasVisited[i]) {
+            if (!__hasVertexVisited[i]) {
                 // 没到一个新的连通块都要重新赋值和还原
                 __head = i;
                 __memberNum = 0;
@@ -192,7 +221,7 @@ public class HeadOfAGang_1034 {
      */
     private static void dfs(int nowNode) {
         __memberNum++;
-        __hasVisited[nowNode] = true;
+        __hasVertexVisited[nowNode] = true;
 
         // 如果点权大的话, 那么更新head
         if (__weight[nowNode] > __weight[__head]) {
@@ -202,12 +231,30 @@ public class HeadOfAGang_1034 {
         // 通过这个点再接着遍历下去
         // 注意可能有环的情况
         for (int i = 0; i < __number; i++) {
-            // 没有被访问过 && 能通过nowNode到达
-            if (!__hasVisited[i] && __graph[i][nowNode] != 0) {
-                // 边权增加
-                __totalRelationWeight += __graph[i][nowNode];
+            // 能通过nowNode到达
+            if (__graph[i][nowNode] != 0) {
+                // 没有被访问过
+                if (!__hasVertexVisited[i]) {
+                    // 边权增加
+                    __totalRelationWeight += __graph[i][nowNode];
 
-                dfs(i);
+                    __hasPathVisited[i][nowNode] = true;
+                    __hasPathVisited[nowNode][i] = true;
+
+                    dfs(i);
+                } else if (__hasVertexVisited[i] && !__hasPathVisited[i][nowNode]) {
+                    // 被访问过, 但是有路径没有被访问过
+                    __hasPathVisited[i][nowNode] = true;
+                    __hasPathVisited[nowNode][i] = true;
+
+                    __totalRelationWeight += __graph[i][nowNode];
+
+                    // 从这里进入dfs的话, 就说明已经遍历过这个顶点,
+                    // dfs中会__memberNum++, 不需要这个++
+                    // 手动-1
+                    __memberNum--;
+                    dfs(i);
+                }
             }
         }
     }
