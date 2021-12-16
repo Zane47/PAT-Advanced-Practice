@@ -1,10 +1,14 @@
 package pat.advanced.graph;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-/**测试点4 超时
- * 邻接矩阵表示graph
+/**
+ * 邻接表表示graph
+ * 修改判断逻辑
+ * <p>
+ * <p>
  * tell the number of highways need to be repaired, quickly.
  * <p>
  * <p>
@@ -25,30 +29,34 @@ import java.util.Scanner;
  * 添加边的个数 = 连通块个数-1 -> 证明见< 算法笔记上机训练 > P339, 自己画图粗略的出来关系
  * 2. 求连通块个数, dfs求双层for的时候, 外层记录
  */
-public class BattleOverCities_1013 {
+public class BattleOverCities_1013_2 {
+
+    private static int N;
 
     public static void main(String[] args) {
         // ------------------------ input + init ------------------------
         Scanner sc = new Scanner(System.in);
 
         // the total number of cities, <1000
-        int N = sc.nextInt();
+        N = sc.nextInt();
         // the number of remaining highways,
         int M = sc.nextInt();
         // and the number of cities to be checked,
         int K = sc.nextInt();
 
         // [1, N]city编号
-        int[][] graph = new int[N + 1][N + 1];
+        List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i <= N; i++) {
-            Arrays.fill(graph[i], -1);
+            List<Integer> list = new ArrayList<>();
+            graph.add(list);
         }
 
         for (int i = 0; i < M; i++) {
             int city1 = sc.nextInt();
             int city2 = sc.nextInt();
-            graph[city1][city2] = 1;
-            graph[city2][city1] = 1;
+            graph.get(city1).add(city2);
+            graph.get(city2).add(city1);
+
         }
 
         for (int k = 0; k < K; k++) {
@@ -57,14 +65,12 @@ public class BattleOverCities_1013 {
             int blockNum = 0;
 
             // 顶点是否被访问过
-            boolean[] hasVisited = new boolean[graph.length + 1];
-            // 失去的city认为是被访问过的city
-            hasVisited[lostCity] = true;
+            boolean[] hasVisited = new boolean[N + 1];
 
             // 遍历所有顶点
-            for (int i = 1; i < graph.length; i++) {
-                // 没有被访问过(没有被攻占)
-                if (!hasVisited[i]) {
+            for (int i = 1; i <= N; i++) {
+                // 没有被访问过 && 没有被攻占
+                if (!hasVisited[i] && i != lostCity) {
                     blockNum++;
                     // 遍历顶点i所在的连通块
                     dfs(graph, i, hasVisited, lostCity);
@@ -76,12 +82,18 @@ public class BattleOverCities_1013 {
     }
 
 
-    private static void dfs(int[][] graph, int nowCity, boolean[] hasVisited, int lostCity) {
+    private static void dfs(List<List<Integer>> graph,
+                            int nowCity, boolean[] hasVisited, int lostCity) {
+        // 此处判断是否是lostCity, 如果是的话不要遍历, 否则他会错误地认为他们是连通的
+        if (nowCity == lostCity) {
+            return;
+        }
+
         hasVisited[nowCity] = true;
 
-        for (int i = 1; i < graph.length; i++) {
-            // 没有访问过, 可以通过该点访问到
-            if (!hasVisited[i] && graph[i][nowCity] == 1) {
+        for (int i = 1; i <= N; i++) {
+            // 没有访问过 && 可以通过该点访问到
+            if (!hasVisited[i] && graph.get(i).contains(nowCity)) {
                 dfs(graph, i, hasVisited, lostCity);
             }
         }
