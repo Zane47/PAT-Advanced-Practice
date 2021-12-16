@@ -5,14 +5,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-/**https://www.nowcoder.com/pat/5/problem/4091
- * 29 99241 82960 75272 41172 03312 81531 87674 73980 84179 -1 93612 -72662 13050 66160 -74352 39253 82818 -92020 64274 41172 -61677 42485 39253 -90021 17582 07747 -58875 03312 87255 -48656 20185 64274 58346 99241 02307 24096 35739 99799 -1511 59129 15501 78798 99799 20185 -31574 59403 72092 -54241 73980 17582 -83795 55558 28327 4986 93612 99241 65892 74156 35739 83891 66160 59403 75487 28327 59129 -45038 50092 55558 61894 82818 74156 -25329 82960 13050 50448 72092 42485 -83934 15501 93301 89508 07747 50092 -23045 93301 87674 84979 87255
+/**
+ * 测试点3超时
+ * https://www.nowcoder.com/pat/5/problem/4091
+ * <p>
  * sort the structures according to their key values in increasing order.
  * <p>
  * <p>
  * 注意点:
  * 1. head的作用: 可能有无效结点, 也就是不在link上的点, output的时候不能直接输出N, 要计算count
- * 2. 均为无效结点 -> 0 -1
+ * 2. 特殊处理: 均为无效结点 -> 0 -1
  */
 public class LinkedListSorting_1052 {
     public static void main(String[] args) {
@@ -68,7 +70,7 @@ public class LinkedListSorting_1052 {
         for (int i = 0; i < validList.size() - 1; i++) {
             System.out.printf("%05d ", validList.get(i).address);
             System.out.printf("%d ", validList.get(i).key);
-            System.out.printf("%05d\n", validList.get(i + 1).key);
+            System.out.printf("%05d\n", validList.get(i + 1).address);
         }
 
         // 打印最后一条数据
