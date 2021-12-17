@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/**测试点1错误
+/**
  * 测试点3, 4超时
  * remove the nodes with duplicated absolute values of the keys
  * 绝对值一致
@@ -89,16 +89,16 @@ public class DeduplicationOnALinkedList_1097 {
                     resultList.add(node);
                     nums[Math.abs(node.key)] = true;
                 } else {
-                    // 如果不是第一次出现, 判断是否要加入removedList
-                    if (!removedNumList.contains(node.key)) {
-                        removedList.add(node);
-                        removedNumList.add(node.key);
-                    }
+                    // 如果不是第一次出现, 直接加入removedList
+                    removedList.add(node);
                 }
             }
             // 下一个
             cur = nodes[cur].next;
         }
+
+
+
         // ------------------------ ouput ------------------------
         // output the resulting linked list first, then the removed list.
         // Each node occupies a line, and is printed in the same format as in the input.
@@ -122,8 +122,6 @@ public class DeduplicationOnALinkedList_1097 {
                 System.out.printf("%05d %d -1\n", removedList.get(i).address, removedList.get(i).key);
             }
         }
-
-
     }
 
 
