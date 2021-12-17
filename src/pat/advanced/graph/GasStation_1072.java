@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
+ * 测试点4 超时
  * minimum distance between the station and any of the residential housing is as far away as possible.
  * However it must guarantee that all the houses are in its service range.
  * <p>
@@ -39,8 +40,8 @@ public class GasStation_1072 {
     // the index number of the best location
     private static int __resultIndex = -1;
 
-    // minimum distances between the solution and all the houses
-    private static double __minDistance = INF;
+    // minimum distances between the solution and all the houses, 取最大的最小距离
+    private static double __minDistance = 0;
 
     // average distances between the solution and all the houses
     private static double __avgDistance = -1;
@@ -66,6 +67,7 @@ public class GasStation_1072 {
         Ds = sc.nextInt();
 
         // init graph
+        //[1, N + M + 1]
         __graph = new int[N + M + 1][N + M + 1];
         for (int i = 0; i < N + M + 1; i++) {
             Arrays.fill(__graph[i], INF);
@@ -98,6 +100,7 @@ public class GasStation_1072 {
         // 枚举所有的加油站
         for (int i = N + 1; i < N + M + 1; i++) {
             // dijkstra求出__distance数组即可
+            // __distance也是[1,N+M]
             dijkstraFunc(i);
 
             // ------------------------ 判断是否要更新 ------------------------
@@ -106,18 +109,27 @@ public class GasStation_1072 {
             double minDistance = INF;
             // 平均距离
             double avgDistance = 0;
-            for (int j = 0; j < N + 1; j++) {
+            // 遍历房屋
+            for (int j = 1; j < N + 1; j++) {
                 // 有距离超过Ds, 那么就直接break掉, 这个加油站不行
                 if (__distance[j] > Ds) {
+                    // break前minDistance赋值, 因为有可能不行的数据在中间, minDistance已经被赋值过了
+                    // 这里要还原
+                    minDistance = -1;
                     break;
-                } else {
-                    // 最近距离
-                    if (__distance[j] < minDistance) {
-                        minDistance = __distance[j];
-                    }
-                    // 平均距离
-                    avgDistance += (double) __distance[j] / N;
                 }
+
+                // 最近距离
+                if (__distance[j] < minDistance) {
+                    minDistance = __distance[j];
+                }
+                // 平均距离
+                avgDistance += (double) __distance[j] / N;
+
+            }
+            // 大于Ds距离的加油站, 不符合要求, 直接找下一个加油站
+            if (minDistance == -1) {
+                continue;
             }
 
             // If there are more than one solution,
@@ -126,21 +138,28 @@ public class GasStation_1072 {
             // output the one with the smallest index number.
             // 最小平均距离
             // 要不要用BigInteger来比较大小?
-            if (minDistance < __minDistance) {
+
+            // 取最大的最近距离, 满足距离小于Ds的情况下, 距离尽可能小
+            if (minDistance > __minDistance) {
                 __minDistance = minDistance;
                 __avgDistance = avgDistance;
                 __resultIndex = i;
-            } else if (Math.abs(__avgDistance - avgDistance) < 1e-8) {
-                // output the one with the smallest index number.
-                if (i < __resultIndex) {
-                    __minDistance = minDistance;
+            } else if (minDistance == __minDistance) {
+                if (__avgDistance > avgDistance) {
+                    // output the one with the smallest index number.
                     __avgDistance = avgDistance;
                     __resultIndex = i;
+                } else if (Math.abs(__avgDistance - avgDistance) < 1e-8) {
+                    if (i < __resultIndex) {
+                        __resultIndex = i;
+                        __avgDistance = avgDistance;
+                    }
+
                 }
+
+
             }
-
         }
-
         // ------------------------ output ------------------------
         // the first line: the index number of the best location.
         // In the next line, print the minimum and the average distances
@@ -172,7 +191,7 @@ public class GasStation_1072 {
         __hasVisited = new boolean[N + M + 1];
 
         // 循环N+M次
-        for (int i = 1; i < N + M + 1; i++) {
+        for (int i = 0; i < N + M; i++) {
             // u可以让d[u]最小, MIN存放该最小的d[u]
             int u = -1;
             int min = INF;
