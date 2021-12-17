@@ -1,4 +1,4 @@
-package pat.advanced.simplemath;
+package pat.advanced.math;
 
 import java.util.Scanner;
 
