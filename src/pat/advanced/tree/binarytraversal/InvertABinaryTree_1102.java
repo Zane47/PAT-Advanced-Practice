@@ -1,4 +1,4 @@
-package pat.advanced.tree;
+package pat.advanced.tree.binarytraversal;
 
 
 import java.util.*;

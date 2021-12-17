@@ -1,15 +1,20 @@
-package pat.advanced.tree;
+package pat.advanced.tree.treetraversal;
 
 import java.util.*;
 
-/**ac
+/**
+ * ac
  * find the generation with the largest population
  * 结点最多的一层, level order
  */
-public class TheLargestGeneration_1094_BFS {
+public class TheLargestGeneration_1094_DFS {
 
     private static int __maxPopulation = 0;
     private static int __depth = 1;
+
+    // level和对应的数量
+    private static int[] __hashTable;
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -39,49 +44,37 @@ public class TheLargestGeneration_1094_BFS {
             }
         }
 
+        __hashTable = new int[N + 1];
+        Arrays.fill(__hashTable, 0);
 
-        // 层次遍历
-        levelOrder(treeNodes);
-
-        int[] hashTable = new int[N + 1];
-        Arrays.fill(hashTable, 0);
-
-        for (int i = 1; i <= N; i++) {
-            hashTable[treeNodes[i].level]++;
-        }
-
-        for (int i = 1; i < hashTable.length; i++) {
-            if (hashTable[i] > __maxPopulation) {
-                __maxPopulation = hashTable[i];
-                __depth = i;
-            }
-        }
-
+        dfs(treeNodes, 1, 1);
 
         // output
         // print in one line the largest population number
         // and the level of the corresponding generation.
         // It is assumed that such a generation is unique, and the root level is defined to be 1.
 
+
+        for (int i = 1; i < __hashTable.length; i++) {
+            if (__hashTable[i] > __maxPopulation) {
+                __maxPopulation = __hashTable[i];
+                __depth = i;
+            }
+        }
+
         System.out.printf("%d %d", __maxPopulation, __depth);
     }
 
     /**
-     * 层次遍历
+     * dfs
      *
      * @param treeNodes
      */
-    private static void levelOrder(TreeNode[] treeNodes) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(1);
-
-        while (!queue.isEmpty()) {
-            int nowNode = queue.poll();
-            for (int i = 0; i < treeNodes[nowNode].children.size(); i++) {
-                int child = treeNodes[nowNode].children.get(i);
-                treeNodes[child].level = treeNodes[nowNode].level + 1;
-                queue.add(child);
-            }
+    private static void dfs(TreeNode[] treeNodes, int nowNode, int depth) {
+        __hashTable[depth]++;
+        for (int i = 0; i < treeNodes[nowNode].children.size(); i++) {
+            int nextNode = treeNodes[nowNode].children.get(i);
+            dfs(treeNodes, nextNode, depth + 1);
         }
     }
 

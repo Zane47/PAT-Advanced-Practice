@@ -1,4 +1,4 @@
-package pat.advanced.tree;
+package pat.advanced.tree.treetraversal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
