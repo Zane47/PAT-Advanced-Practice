@@ -19,7 +19,7 @@ import java.util.Scanner;
  * output:
  * 0 1 5 3 4 6
  */
-public class AlexanderDemo {
+public class AlexanderDemo_dijkstra {
     // 一个很大的数, 或10^9, 表示顶点之间的不连通
     private static final int INF = 0x3fffffff;
 

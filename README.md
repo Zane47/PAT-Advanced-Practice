@@ -8,3 +8,6 @@ https://github.com/slatter666/PAT/blob/master/Advanced%20Level/record
 
 ## 代金券
 [牛客过20题报名代金券](https://www.nowcoder.com/pat)
+
+## ??
+java超时情况较多???, 同样思路java超时, 还是pat的判断更新了?
