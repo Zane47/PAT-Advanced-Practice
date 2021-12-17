@@ -1,7 +1,6 @@
 package pat.advanced.graph;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * 测试点4 超时
