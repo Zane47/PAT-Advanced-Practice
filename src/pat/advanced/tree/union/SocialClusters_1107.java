@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
-/**
+/**error
  * 和找朋友类似的问题
  * 每个人有多个爱好, 求爱好的集合
  * <p>
